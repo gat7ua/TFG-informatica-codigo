@@ -4,7 +4,7 @@ import db from '../database';
 
 class VuelosController {
     public list (req: Request, res: Response) {
-        db.query('select * from vuelo');
+        //db.query('call insertaOferta(4000000, \'2020-12-12\', \'2020-12-15\', 1.25)');
         res.send('Vuelos');
     }
 
@@ -22,6 +22,8 @@ class VuelosController {
     }
 
     delete (req: Request, res: Response) {
+        db.query('delete from vuelo where id_prod = ' + req.params.id);
+        db.query('delete from producto where id_prod = ' + req.params.id)
         res.json({text: 'vuelo borrado ' + req.params.id});
     }
 }

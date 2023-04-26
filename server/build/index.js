@@ -8,6 +8,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const vuelosRoutes_1 = __importDefault(require("./routes/vuelosRoutes"));
+const ciudadRoutes_1 = __importDefault(require("./routes/ciudadRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -15,7 +16,7 @@ class Server {
         this.routes();
     }
     config() {
-        this.app.set('port', process.env.port || 4200);
+        this.app.set('port', process.env.port || 4500);
         this.app.use((0, morgan_1.default)('dev'));
         this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.json());
@@ -24,6 +25,7 @@ class Server {
     routes() {
         this.app.use(indexRoutes_1.default);
         this.app.use('/api/vuelos', vuelosRoutes_1.default);
+        this.app.use('/api/ciudad', ciudadRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

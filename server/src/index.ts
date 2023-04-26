@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import ir from './routes/indexRoutes';
 import vr from './routes/vuelosRoutes';
+import cr from './routes/ciudadRoutes';
 
 class Server {
 
@@ -16,7 +17,7 @@ class Server {
     }
 
     config(): void {
-        this.app.set('port', process.env.port || 4200);
+        this.app.set('port', process.env.port || 4500);
         this.app.use(morgan('dev'));
         this.app.use(cors());
         this.app.use(express.json());
@@ -26,6 +27,7 @@ class Server {
     routes(): void {
         this.app.use(ir);
         this.app.use('/api/vuelos', vr);
+        this.app.use('/api/ciudad', cr);
     }
 
     start(): void {

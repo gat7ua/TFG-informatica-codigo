@@ -1,0 +1,19 @@
+<div class="container text-center">
+<h1>Ciudades</h1>
+
+<div class="container row">
+<div class="col-md-3 mt-3" *ngFor="let ciudad of ciudades">
+    <div class="card text-center">
+        <div class="card-header d-flex justify-content-center">
+            <b>{{ciudad.nombre}}</b> - {{ciudad.pais}}
+        </div>
+        <div class="card-body">
+           <a [routerLink]="['/ciudades/modify', ciudad.id_ciud]" class="btn btn-info btn-block">Modificar</a>
+           <button class="btn btn-danger" (click)="deleteCiudad(ciudad.id_ciud)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </div>
+    </div>
+</div>
+</div>
+
+<a routerLink="/ciudades/add" class="btn btn-primary btn-block mt-4">Añadir ciudad</a>
+</div>

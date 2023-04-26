@@ -7,7 +7,7 @@ exports.vuelosController = void 0;
 const database_1 = __importDefault(require("../database"));
 class VuelosController {
     list(req, res) {
-        database_1.default.query('select * from vuelo');
+        //db.query('call insertaOferta(4000000, \'2020-12-12\', \'2020-12-15\', 1.25)');
         res.send('Vuelos');
     }
     get(req, res) {
@@ -21,6 +21,8 @@ class VuelosController {
         res.json({ text: 'vuelo actualizado ' + req.params.id });
     }
     delete(req, res) {
+        database_1.default.query('delete from vuelo where id_prod = ' + req.params.id);
+        database_1.default.query('delete from producto where id_prod = ' + req.params.id);
         res.json({ text: 'vuelo borrado ' + req.params.id });
     }
 }

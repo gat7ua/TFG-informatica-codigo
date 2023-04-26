@@ -1,3 +1,10 @@
 para iniciar:
-    - terminal 1 -> npm run build
-    - terminal 2 -> npm run dev
+    - terminal 1 -> 
+        > cd server
+        > npm run build
+    - terminal 2 -> 
+        > cd server
+        > npm run dev
+    - terminal 3 ->
+        > cd front
+        > ng serve
