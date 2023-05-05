@@ -10,7 +10,8 @@ class vuelosRoutes {
     }
 
     config(): void {
-        this.router.get('/', vuelosController.list);        
+        this.router.get('/', vuelosController.list); 
+        this.router.post('/busqueda', vuelosController.busqueda);        
         this.router.get('/:id', vuelosController.get);
         this.router.post('/', vuelosController.create);
         this.router.put('/:id', vuelosController.update);

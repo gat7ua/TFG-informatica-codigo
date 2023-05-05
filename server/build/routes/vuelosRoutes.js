@@ -9,6 +9,7 @@ class vuelosRoutes {
     }
     config() {
         this.router.get('/', vuelosController_1.vuelosController.list);
+        this.router.post('/busqueda', vuelosController_1.vuelosController.busqueda);
         this.router.get('/:id', vuelosController_1.vuelosController.get);
         this.router.post('/', vuelosController_1.vuelosController.create);
         this.router.put('/:id', vuelosController_1.vuelosController.update);

@@ -5,6 +5,8 @@ import cors from 'cors';
 import ir from './routes/indexRoutes';
 import vr from './routes/vuelosRoutes';
 import cr from './routes/ciudadRoutes';
+import ur from './routes/usuarioRoutes';
+import apr from './routes/aeropuertoRoutes';
 
 class Server {
 
@@ -28,6 +30,8 @@ class Server {
         this.app.use(ir);
         this.app.use('/api/vuelos', vr);
         this.app.use('/api/ciudad', cr);
+        this.app.use('/api/usuario', ur);
+        this.app.use('/api/aeropuerto', apr);
     }
 
     start(): void {

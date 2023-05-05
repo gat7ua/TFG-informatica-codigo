@@ -1,0 +1,48 @@
+<div class="container row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-header">
+                Registro
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group mb-3">
+                        <input type="email" name="email" placeholder="Email" class="form-control" [(ngModel)]="usuario.email" autofocus required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="nombre" placeholder="Nombre" class="form-control" [(ngModel)]="usuario.nombre" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="apellido1" placeholder="Primer apellido" class="form-control" [(ngModel)]="usuario.apellido1">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="apellido2" placeholder="Segundo apellido" class="form-control" [(ngModel)]="usuario.apellido2">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="nif" placeholder="NIF" class="form-control" [(ngModel)]="usuario.nif">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="direccion" placeholder="Dirección" class="form-control" [(ngModel)]="usuario.direccion">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="password" name="contras" placeholder="Contraseña" class="form-control" [(ngModel)]="usuario.contras" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="password" name="conf-password" placeholder="Confirmar contraseña" class="form-control" [(ngModel)]="passconf" required>
+                        .
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success" type="submit" name="email" (click)="registrar()"
+                            [disabled]="usuario.email == '' || usuario.nombre == '' || usuario.contras == '' || passconf == ''">
+                            Enviar
+                        </button>
+                    </div>        
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 offset-md-4 mt-4">
+        ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a>
+    </div>
+</div>
+

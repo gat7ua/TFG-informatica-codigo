@@ -1,0 +1,113 @@
+<div class="container">
+    <div class="col-md-10 offset-md-1">
+        <div class="card">
+            <div class="card-header">
+                Buscador de vuelos
+            </div>
+            <div class="card-body row">
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlInput1" class="form-label">Desde</label>
+                    <input class="form-control" list="datalistOptions" id="desdeList" placeholder="Escriba para buscar..." [(ngModel)]="form.desde">
+                    <datalist id="datalistOptions">
+                        <option *ngFor="let aero of this.aeropuertos" [value]="aero.id_aero">
+                            {{aero.nombre}} ({{aero.cod_iata}})
+                        </option>
+                    </datalist> 
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">A</label>
+                    <input class="form-control" list="datalistOptions" id="haciaList" placeholder="Escriba para buscar..." [(ngModel)]="form.hacia">
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">Clase</label>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="form.clase">
+                        <option selected value="turista">Turista</option>
+                        <option value="bussiness">Bussiness</option>
+                        <option value="primera">Primera</option>
+                      </select>
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">Ida</label>
+                    <input type="date" class="form-control"class="form-control" id="ida" placeholder="" [(ngModel)]="form.ida">
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">Vuelta</label>
+                    <input type="date" class="form-control"class="form-control" id="vuelta" placeholder="" [(ngModel)]="form.vuelta">
+                </div>
+                <div class="mb-3 col-md-2">
+                    <label for="exampleFormControlTextarea1" class="form-label">Viajeros</label>
+                    <input type="number" min="0" max="10" class="form-control"class="form-control" id="viajeros" placeholder="" [(ngModel)]="form.num_viaj">
+                </div>
+                <div class="mb-3 col-md-2">
+                    <button  class="btn btn-success mt-3" type="submit" name="email" (click)="buscar()"
+                      [disabled]="form.desde == '' || form.clase == '' || form.ida == '' || form.num_viaj == 0
+                                 || (form.vuelta != '' && form.vuelta < form.ida)">
+                        Buscar
+                    </button>
+                </div>
+                <label style="color: rgb(197, 21, 21);" 
+                        [hidden]="(form.ida == '' || form.vuelta == '') || form.vuelta > form.ida">
+                    <b>Debe seleccionar una fecha de vuelta posterior a la de ida</b>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4" id="resIdas" hidden>
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                {{idas.length}} resultados
+            </div>
+            <div class="card-body">
+                <div *ngFor="let vuelo of idas" class="container row ml-2 mb-3">
+                    Desde: {{vuelo.aero_sal_nombre}} - A: {{vuelo.aero_lleg_nombre}}
+                    <br>
+                    Fecha: {{imprimirFecha(vuelo.fecha)}}
+                    <br>
+                    {{form.num_viaj}} viajeros en clase {{form.clase}}
+                    Precio: {{form.num_viaj}} x {{vuelo.precio_unitario *
+                        (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))}} = {{
+                            form.num_viaj * vuelo.precio_unitario *
+                                (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))
+                        }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4" id="resVueltas" hidden>
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                {{vueltas.length}} resultados
+            </div>
+            <div class="card-body">
+                <div *ngFor="let vuelo of vueltas" class="container row ml-2 mb-3">
+                    Desde: {{vuelo.aero_sal_nombre}} - A: {{vuelo.aero_lleg_nombre}}
+                    <br>
+                    Fecha: {{imprimirFecha(vuelo.fecha)}}
+                    <br>
+                    {{form.num_viaj}} viajeros en clase {{form.clase}}
+                    Precio: {{form.num_viaj}} x {{vuelo.precio_unitario *
+                        (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))}} = {{
+                            form.num_viaj * vuelo.precio_unitario *
+                                (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))
+                        }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+aero_lleg_nombre    aero_llegad        aero_sal_nombre
+aero_salida         cod_iata_lleg      cod_iata_sal
+duracion            fecha              id_prod
+id_prov             ida                nombre_prov
+num_asi_buss        num_asi_prim       num_asi_tur
+ocup_asi_buss       ocup_asi_prim      ocup_asi_tur
+porc_buss           porc_prim          precio_unitario
+sede_prov           uds_disponibles    uds_ocup
+-->
