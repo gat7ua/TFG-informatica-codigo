@@ -21,21 +21,28 @@ export class AuthService {
   registro(usuario: Usuario) {
     return this.http.post<any>(this.URL + '/usuario/registrar', usuario);
   }
-
-  loggedIn(){
-    return !!localStorage.getItem('token');
-  }
   
-  getToken(){
-    return 'buenaonda';
+  getUserDetails() {
+    if(localStorage.getItem('userData'))
+      return localStorage.getItem('userData');
+    else
+      return null;    
+  }
+
+  setDataInLocalStorage(variableName: string, data: any) {
+      localStorage.setItem(variableName, data);
+  }
+
+  getToken() {
+      return localStorage.getItem('token');
+  }
+
+  clearStorage() {
+      localStorage.clear();
   }
 
   getUser(){
     return localStorage.getItem('user');
-  }
-
-  reservar(item: any) {
-    return this.http.post<any>(this.URL + `/${item.prov}/reserva/${this.getUser()}/${item.id}`, item);
   }
 
   logOut(){

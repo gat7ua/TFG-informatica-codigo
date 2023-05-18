@@ -53,52 +53,79 @@
         </div>
     </div>
 </div>
+
 <div class="container mt-4" id="resIdas" hidden>
     <div class="col-md-8 offset-md-2">
         <div class="card">
             <div class="card-header">
-                {{idas.length}} resultados
+                Vuelos de ida: {{idas.length}} resultados
             </div>
             <div class="card-body">
-                <div *ngFor="let vuelo of idas" class="container row ml-2 mb-3">
-                    Desde: {{vuelo.aero_sal_nombre}} - A: {{vuelo.aero_lleg_nombre}}
-                    <br>
-                    Fecha: {{imprimirFecha(vuelo.fecha)}}
-                    <br>
-                    {{form.num_viaj}} viajeros en clase {{form.clase}}
-                    Precio: {{form.num_viaj}} x {{vuelo.precio_unitario *
-                        (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))}} = {{
-                            form.num_viaj * vuelo.precio_unitario *
-                                (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))
-                        }}
+                <div *ngFor="let vuelo of paginIdas" class="container row ml-2 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            Desde: {{vuelo.aero_sal_nombre}} - A: {{vuelo.aero_lleg_nombre}}
+                            <br>
+                            Fecha: {{imprimirFecha(vuelo.fecha)}}
+                            <br>
+                            {{form.num_viaj}} viajeros en clase {{form.clase}}
+                            Precio: {{form.num_viaj}} x {{vuelo.precio_unitario *
+                                (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))}} = {{
+                                    form.num_viaj * vuelo.precio_unitario *
+                                        (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))
+                                }}
+                            <br>
+                            <button class="btn btn-success mt-3">Añadir a cesta</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+          <li [hidden]="indActualIda == 0" class="page-item"><a class="page-link" (click)="paginar(indActualIda - numPagina, 'ida')"><i class="fa fa-arrow-left" aria-hidden="true"></i></a></li>
+          <li class="page-item" *ngFor="let paginaI of indicesIda"><a class="page-link" (click)="paginar(paginaI.indice,'ida')"> {{paginaI.pagina}} </a></li>
+          <li [hidden]="indActualIda >= maxIndIda" class="page-item"><a class="page-link" (click)="paginar(indActualIda + numPagina, 'ida')"><i class="fa fa-arrow-right" aria-hidden="true"></i></a></li>
+        </ul>
+    </nav>
 </div>
 
 <div class="container mt-4" id="resVueltas" hidden>
     <div class="col-md-8 offset-md-2">
         <div class="card">
             <div class="card-header">
-                {{vueltas.length}} resultados
+                Vuelos de vuelta: {{vueltas.length}} resultados
             </div>
             <div class="card-body">
                 <div *ngFor="let vuelo of vueltas" class="container row ml-2 mb-3">
-                    Desde: {{vuelo.aero_sal_nombre}} - A: {{vuelo.aero_lleg_nombre}}
-                    <br>
-                    Fecha: {{imprimirFecha(vuelo.fecha)}}
-                    <br>
-                    {{form.num_viaj}} viajeros en clase {{form.clase}}
-                    Precio: {{form.num_viaj}} x {{vuelo.precio_unitario *
-                        (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))}} = {{
-                            form.num_viaj * vuelo.precio_unitario *
-                                (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))
-                        }}
+                    <div class="card">
+                        <div class="card-body">
+                            Desde: {{vuelo.aero_sal_nombre}} - A: {{vuelo.aero_lleg_nombre}}
+                            <br>
+                            Fecha: {{imprimirFecha(vuelo.fecha)}}
+                            <br>
+                            {{form.num_viaj}} viajeros en clase {{form.clase}}
+                            Precio: {{form.num_viaj}} x {{vuelo.precio_unitario *
+                                (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))}} = {{
+                                    form.num_viaj * vuelo.precio_unitario *
+                                        (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))
+                                }}
+                            <br>
+                            <button class="btn btn-success mt-3">Añadir a cesta</button>
+                        </div>
+                    </div>                    
                 </div>
             </div>
         </div>
     </div>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+          <li [hidden]="indActualVuelta == 0" class="page-item"><a class="page-link" (click)="paginar(indActualVuelta - numPagina,'vuelta')"><i class="fa fa-arrow-left" aria-hidden="true"></i></a></li>
+          <li class="page-item" *ngFor="let paginaV of indicesVuelta"><a class="page-link" (click)="paginar(paginaV.indice,'vuelta')"> {{paginaV.pagina}} </a></li>
+          <li [hidden]="indActualVuelta >= maxIndVuelta" class="page-item"><a class="page-link" (click)="paginar(indActualIda + numPagina,'ida')"><i class="fa fa-arrow-right" aria-hidden="true"></i></a></li>
+        </ul>
+    </nav>
 </div>
 
 <!--
