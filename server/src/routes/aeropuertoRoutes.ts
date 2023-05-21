@@ -15,6 +15,8 @@ class aeropuertoRoutes {
         this.router.post('/', aeropuertoController.create);
         this.router.put('/:id', aeropuertoController.update);
         this.router.delete('/:id', aeropuertoController.delete);
+        this.router.get('/cuentaida/:id', aeropuertoController.cuentaIda);
+        this.router.get('/cuentavue/:id', aeropuertoController.cuentaVuelta);
     }
 }
 

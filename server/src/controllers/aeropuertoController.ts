@@ -4,7 +4,10 @@ import db from '../database';
 
 class AeropuertoController {
     public async list (req: Request, res: Response) {
-        const retur = await db.query("select * from aeropuerto");
+        const retur = await db.query(
+            "select a.*, c.nombre nombre_ciud, c.pais \
+             from aeropuerto a, ciudad c \
+             where a.id_ciud = c.id_ciud;");
         //console.log(retur);
         res.json(retur);
     }
@@ -19,7 +22,7 @@ class AeropuertoController {
 
     public async create (req: Request, res: Response): Promise<void> {
         console.log(req.body);
-        await db.query("call insertaAeropuerto('"+ req.body.nombre + "', " + req.body.id_ciud + ", '" + req.body.piata + "', '" + req.body.picao + "');");
+        await db.query("call insertaAeropuerto('"+ req.body.nombre + "', " + req.body.id_ciud + ", '" + req.body.cod_iata + "');");
         res.json({text: 'aeropuerto creado'});
     }
     
@@ -27,8 +30,8 @@ class AeropuertoController {
         console.log(req.body);
         const consul = await db.query("select * from aeropuerto where id_aero = " + req.params.id)
         if (consul.length > 0) {
-            await db.query("update aeropuerto c set c.nombre = '" + req.body.nombre + "', id_ciud = " + req.body.id_ciud + ", '" 
-                            + req.body.piata + "', '" + req.body.picao + "' where id_aero = " + req.params.id);
+            await db.query("update aeropuerto c set c.nombre = '" + req.body.nombre + "', id_ciud = " + req.body.id_ciud + 
+                           ", cod_iata= '" + req.body.cod_iata + "' where id_aero = " + req.params.id);
             res.json({text: 'aeropuerto actualizado'});
         } else {
             res.json({text: 'No existe un aeropuerto con ese ID'});
@@ -41,6 +44,26 @@ class AeropuertoController {
         if (consul.length > 0) {
             db.query("delete from aeropuerto where id_aero = " + req.params.id);
             res.json({text: 'aeropuerto borrado ' + req.params.id});
+        } else {
+            res.json({text: 'No existe un aeropuerto con ese ID'});
+        }
+    }
+
+    public async cuentaIda (req: Request, res: Response) {
+        const consul = await db.query("select * from aeropuerto where id_aero = " + req.params.id)
+        if (consul.length > 0) {
+            const retur = await db.query("select count(*) cuenta from vuelo v where v.aero_salida = " + req.params.id);
+            res.json(retur[0]);
+        } else {
+            res.json({text: 'No existe un aeropuerto con ese ID'});
+        }
+    }
+
+    public async cuentaVuelta (req: Request, res: Response) {
+        const consul = await db.query("select * from aeropuerto where id_aero = " + req.params.id)
+        if (consul.length > 0) {
+            const retur = await db.query("select count(*) cuenta from vuelo v where v.aero_llegad = " + req.params.id);
+            res.json(retur[0]);
         } else {
             res.json({text: 'No existe un aeropuerto con ese ID'});
         }

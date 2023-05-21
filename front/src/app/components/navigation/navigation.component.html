@@ -11,10 +11,20 @@
                 <a class="nav-link" routerLink="/vuelos" routerLinkActive="active">Vuelos</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" routerLink="/ciudades" routerLinkActive="active">Ciudades</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" routerLink="/alojamientos" routerLinkActive="active">Alojamientos</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Gestionar
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" routerLink="/ciudades">Ciudades</a></li>
+                  <li><a class="dropdown-item" routerLink="/proveedores">Proveedores</a></li>
+                  <li><a class="dropdown-item" routerLink="/aeropuertos">Aeropuertos</a></li>
+                  <li><a class="dropdown-item" routerLink="/estautobuses">Estaciones autobus</a></li>
+                  <li><a class="dropdown-item" routerLink="/esttrenes">Estaciones de tren</a></li>
+                  <li><a class="dropdown-item" routerLink="/vuelos/list">Vuelos</a></li>
+                </ul>
               </li>
             </ul>
             <span class="navbar-text">

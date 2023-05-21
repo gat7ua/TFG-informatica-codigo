@@ -1,0 +1,117 @@
+<div class="container row">
+    <div class="col-md-4 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                {{editar == true ? 'Editar vuelo' : 'Añadir vuelo'}}
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Precio unitario del billete</label>
+                        <input type="text" name="preciounit" [(ngModel)]="vuelo.precio_unitario"
+                            placeholder="Precio del billete" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Asientos de categoría turista</label>
+                        <input type="number" name="uds_tur" [(ngModel)]="vuelo.num_asi_tur"
+                            placeholder="Asientos ceteg. turista" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Asientos de categoría bussiness</label>
+                        <input type="number" name="uds_bus" [(ngModel)]="vuelo.num_asi_buss"
+                            placeholder="Asientos ceteg. bussiness" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Asientos de primera categoría</label>
+                        <input type="number" name="uds_pri" [(ngModel)]="vuelo.num_asi_prim"
+                            placeholder="Asientos ceteg. primera" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Fecha y hora de salida del vuelo</label>
+                        <input type="datetime-local" name="fecha" [(ngModel)]="vuelo.fecha"
+                            placeholder="Fecha y hora de salida" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Aeropuerto de salida</label>
+                        <input class="form-control" type="text" list="aeropuertoList" name="listaAerosa"
+                            id="listaAerosa" placeholder="Buscar aeropuerto origen..." [(ngModel)]="aerosal">
+                        <datalist id="aeropuertoList">
+                            <option *ngFor="let aerop of this.aeropuertos" [value]="aerop.id_aero">
+                                {{aerop.nombre}} ({{aerop.cod_iata}})
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Aeropuerto de llegada</label>
+                        <input class="form-control" type="text" list="aeropuertoList" name="listaAeroll"
+                            id="listaAeroll" placeholder="Buscar aeropuerto destino..." [(ngModel)]="aerolleg">
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Incremento precio categoría bussiness</label>
+                        <input type="number" min="0" name="porc_bus" [(ngModel)]="vuelo.porc_buss"
+                            placeholder="Porcentaje respecto a categ. turista" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Incremento precio primera categoría</label>
+                        <input type="number" min="0" name="porc_pri" [(ngModel)]="vuelo.porc_prim"
+                            placeholder="Porcentaje respecto a categ. turista" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Proveedor</label>
+                        <input class="form-control" type="text" list="proveList" name="listaProve" id="listaProve"
+                            placeholder="Buscar proveedor..." [(ngModel)]="prove">
+                        <datalist id="proveList">
+                            <option *ngFor="let prov of this.proveedores" [value]="prov.id_prov">
+                                {{prov.nombre}}, {{prov.sede}}
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Duración del vuelo</label>
+                        <input type="time" name="duraci" [(ngModel)]="vuelo.duracion" placeholder="Duracion vuelo"
+                            class="form-control">
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success" type="button"
+                            (click)="editar == true ? editarVuelo() : guardarVuelo()">
+                            Enviar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a class="btn btn-outline-danger mt-3" routerLink="/vuelos/list"><i class="fa fa-arrow-left"
+                aria-hidden="true"></i></a>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h4>Vuelo resultante</h4>
+            Proveedor: {{obtenProveedor(prove) == '' ? 'Nombre' : obtenProveedor(prove)}}
+            <br>
+            Desde: {{obtenAeropuerto(aerosal) == '' ? 'Aeropuerto salida' : obtenAeropuerto(aerosal)}}
+            <br>
+            A: {{obtenAeropuerto(aerolleg) == '' ? 'Aeropuerto llegada' : obtenAeropuerto(aerolleg)}}
+            <br>
+            <br>
+            Fecha y hora: {{(vuelo.fecha == "" ? "" : vuelosService.imprimirFecha(vuelo.fecha))}}
+            <br>
+            Duración: {{vuelo.duracion}}
+            <br>
+            <br>
+            Número de asientos: <br>
+            {{vuelo.num_asi_tur == undefined ? 0 : vuelo.num_asi_tur}} turistas, <br>
+            {{vuelo.num_asi_buss == undefined ? 0 : vuelo.num_asi_buss}} en bussiness, <br>
+            {{vuelo.num_asi_prim == undefined ? 0 : vuelo.num_asi_prim}} en primera
+            <br>
+            <br>
+            Precio del billete: <br>
+            {{vuelo.precio_unitario == undefined ? 0 : vuelo.precio_unitario}}€ para turista, <br>
+            {{vuelo.precio_unitario == undefined ? 0 :
+            vuelo.porc_buss == undefined ? 0 : vuelo.precio_unitario * (1 + vuelo.porc_buss/100)}}€ en bussiness, <br>
+            {{vuelo.precio_unitario == undefined ? 0 :
+            vuelo.porc_prim == undefined ? 0 : vuelo.precio_unitario * (1 + vuelo.porc_prim/100)}}€ en primera, <br>
+        </div>
+    </div>
+</div>

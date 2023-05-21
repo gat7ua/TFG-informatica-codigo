@@ -1,0 +1,27 @@
+<div class="container text-center">
+    <h1>Aeropuertos</h1>
+    
+    <div class="container row">
+    <div class="col-md-4 mt-3" *ngFor="let aeropuerto of aeropuertos">
+        <div class="card text-center">
+            <div class="card-header d-flex justify-content-center">
+                {{aeropuerto.nombre}} ({{aeropuerto.cod_iata}})
+                 <br>
+                {{aeropuerto.nombre_ciud}}, {{aeropuerto.pais}}
+            </div>
+            <div class="card-body">
+                <!--Vuelos llegada: {{cuenta(aeropuerto.id_aero, "ida")}}
+                <br>
+                Vuelos salida: {{cuenta(aeropuerto.id_aero, "vuelta")}}
+                <br>
+                <div class="container mt-3">-->
+                    <a [routerLink]="['/aeropuertos/modify', aeropuerto.id_aero]" class="btn btn-info btn-block">Modificar</a>
+                    <button class="btn btn-danger" (click)="deleteAeropuerto(aeropuerto.id_aero)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    </div>
+    
+    <a routerLink="/aeropuertos/add" class="btn btn-success btn-block mt-4">Añadir aeropuerto</a>
+    </div>

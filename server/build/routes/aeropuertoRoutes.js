@@ -13,6 +13,8 @@ class aeropuertoRoutes {
         this.router.post('/', aeropuertoController_1.aeropuertoController.create);
         this.router.put('/:id', aeropuertoController_1.aeropuertoController.update);
         this.router.delete('/:id', aeropuertoController_1.aeropuertoController.delete);
+        this.router.get('/cuentaida/:id', aeropuertoController_1.aeropuertoController.cuentaIda);
+        this.router.get('/cuentavue/:id', aeropuertoController_1.aeropuertoController.cuentaVuelta);
     }
 }
 const apr = new aeropuertoRoutes();

@@ -1,5 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component } from '@angular/core';
+import { Vuelo } from 'src/app/models/Vuelo';
 import { VuelosService } from 'src/app/services/vuelos.service';
 
 @Component({
@@ -22,6 +23,15 @@ export class VuelosBuscaComponent {
     num_viaj: 0
   };
 
+  filtro: any = {
+    pmax: "",
+    hdesde: "",
+    hhasta: "",
+    orden: ""
+  }
+
+  orden: string = "";
+
   idas: any = [];
   vueltas: any = [];
 
@@ -37,9 +47,10 @@ export class VuelosBuscaComponent {
   maxIndIda: number = 0;
   maxIndVuelta: number = 0;
 
-  constructor(private vuelosService: VuelosService) {}
+  constructor(protected vuelosService: VuelosService) {}
 
   ngOnInit() {
+    const fondo = document.getElementById("fondo_painga");
     this.getAeropuertos();
   }
 
@@ -70,28 +81,115 @@ export class VuelosBuscaComponent {
         console.log(res);
         var vuelos: any = []; 
         vuelos = res;
-        for (let vuelo of vuelos)
+        for (let vuelo of vuelos) {
+          if (this.filtro.pmax != "") {
+            var prex: number = parseFloat(this.filtro.pmax);
+            if (prex > (vuelo.precio_unitario * (this.form.clase == "turista" ? 1 : (this.form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))))
+              continue;
+          }
+          if (this.filtro.hdesde != "") {
+            var fecVuelo: Date = new Date(vuelo.fecha);
+            var hora: number = parseInt(this.filtro.hdesde.substring(0, 2));
+            var mins: number = parseInt(this.filtro.hdesde.substring(3));
+            if (fecVuelo.getHours() < hora)
+              continue;
+            else if (fecVuelo.getHours() == hora && fecVuelo.getMinutes() < mins)
+              continue;
+          }
+          if (this.filtro.hhasta != "") {
+            var fecVuelo: Date = new Date(vuelo.fecha);
+            var hora: number = parseInt(this.filtro.hhasta.substring(0, 2));
+            var mins: number = parseInt(this.filtro.hhasta.substring(3));
+            if (fecVuelo.getHours() > hora)
+              continue;
+            else if (fecVuelo.getHours() == hora && fecVuelo.getMinutes() > mins)
+              continue;
+          }
           if (vuelo.ida === "ida")
             this.idas.push(vuelo);
           else 
             this.vueltas.push(vuelo);
+        }
+        if (this.filtro.orden != "") {
+          if (this.filtro.orden == "1") { //Precio ascendente
+            this.idas.sort( function(a: Vuelo, b: Vuelo) { //idas
+              if (!a.precio_unitario) return -1;
+              if (!b.precio_unitario) return 1;
+              if (a.precio_unitario > b.precio_unitario) return -1;
+              else if (a.precio_unitario < b.precio_unitario) return 1;
+              return 0;
+            });
+            this.vueltas.sort( function(a: Vuelo, b: Vuelo) { //vueltas
+              if (!b.precio_unitario) return 1;
+              if (!a.precio_unitario) return -1;
+              if (a.precio_unitario > b.precio_unitario) return -1;
+              else if (a.precio_unitario < b.precio_unitario) return 1;
+              return 0;
+            });
+          }
+          else if (this.filtro.orden == "2") { //Precio descendente
+            this.idas.sort( function(a: Vuelo, b: Vuelo) { //idas
+              if (!b.precio_unitario) return 1;
+              if (!a.precio_unitario) return -1;
+              if (a.precio_unitario > b.precio_unitario) return -1;
+              else if (a.precio_unitario < b.precio_unitario) return 1;
+              return 0;
+            });
+            this.vueltas.sort( function(a: Vuelo, b: Vuelo) { //vueltas
+              if (!a.precio_unitario) return -1;
+              if (!b.precio_unitario) return 1;
+              if (a.precio_unitario < b.precio_unitario) return -1;
+              else if (a.precio_unitario > b.precio_unitario) return 1;
+              return 0;
+            });
+          }
+          else if (this.filtro.orden == "3") { //Hora ascendente
+            this.idas.sort( function(a: Vuelo, b: Vuelo) { //idas
+              if (!a.fecha) return -1;
+              if (!b.fecha) return 1;
+              var fecA: Date = new Date(a.fecha);
+              var fecB: Date = new Date(b.fecha);
+              if (fecA < fecB) return -1;
+              else if (fecA > fecB) return 1;
+              return 0;
+            });
+            this.vueltas.sort( function(a: Vuelo, b: Vuelo) { //vueltas
+              if (!a.fecha) return -1;
+              if (!b.fecha) return 1;
+              var fecA: Date = new Date(a.fecha);
+              var fecB: Date = new Date(b.fecha);
+              if (fecA < fecB) return -1;
+              else if (fecA > fecB) return 1;
+              return 0;
+            });
+          }
+          else if (this.filtro.orden == "4") { //Hora Descendente
+            this.idas.sort( function(a: Vuelo, b: Vuelo) { //idas
+              if (!b.fecha) return 1;
+              if (!a.fecha) return -1;
+              var fecA: Date = new Date(a.fecha);
+              var fecB: Date = new Date(b.fecha);
+              if (fecA > fecB) return -1;
+              else if (fecA < fecB) return 1;
+              return 0;
+            });
+            this.vueltas.sort( function(a: Vuelo, b: Vuelo) { //vueltas
+              if (!b.fecha) return 1;
+              if (!a.fecha) return -1;
+              var fecA: Date = new Date(a.fecha);
+              var fecB: Date = new Date(b.fecha);
+              if (fecA > fecB) return -1;
+              else if (fecA < fecB) return 1;
+              return 0;
+            });
+          }
+        }
         console.log(this.idas);
         console.log(this.vueltas);
         this.generaPaginas();
       },
       err => console.log(err)
     )
-  }
-
-  imprimirFecha(fecha: any): string {
-    var pFec: Date = new Date(fecha);
-
-    return pFec.getDay().toString().concat("/")
-          .concat(pFec.getMonth().toString()).concat("/")
-          .concat(pFec.getFullYear().toString()).concat(" a las ")
-          .concat(pFec.getHours().toString()).concat(":")
-          .concat(pFec.getMinutes().toString())
-        ;
   }
 
   paginar(indice: number, idaVuelta: string): void {
