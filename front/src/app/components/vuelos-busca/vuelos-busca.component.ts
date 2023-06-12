@@ -1,6 +1,8 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Vuelo } from 'src/app/models/Vuelo';
+import { DataService } from 'src/app/services/data.service';
 import { VuelosService } from 'src/app/services/vuelos.service';
 
 @Component({
@@ -47,11 +49,15 @@ export class VuelosBuscaComponent {
   maxIndIda: number = 0;
   maxIndVuelta: number = 0;
 
-  constructor(protected vuelosService: VuelosService) {}
+  constructor(protected vuelosService: VuelosService, private route: ActivatedRoute, private dataService: DataService, private router: Router) {}
 
   ngOnInit() {
-    const fondo = document.getElementById("fondo_painga");
     this.getAeropuertos();
+    const jsonElement = this.dataService.getJsonElement();
+    if (jsonElement) {
+      this.form = jsonElement;
+      this.buscar();
+    }
   }
 
   getAeropuertos() {
@@ -84,7 +90,7 @@ export class VuelosBuscaComponent {
         for (let vuelo of vuelos) {
           if (this.filtro.pmax != "") {
             var prex: number = parseFloat(this.filtro.pmax);
-            if (prex > (vuelo.precio_unitario * (this.form.clase == "turista" ? 1 : (this.form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))))
+            if (prex < (vuelo.precio_unitario * (this.form.clase == "turista" ? 1 : (this.form.clase == "bussiness" ? vuelo.porc_buss : vuelo.porc_prim))))
               continue;
           }
           if (this.filtro.hdesde != "") {
@@ -229,5 +235,20 @@ export class VuelosBuscaComponent {
     }    
     this.paginar(0, "ida");
     this.paginar(0, "vuelta");
+  }
+  
+  anayadeCesta(prod: any) {
+    prod.categoria = this.form.clase;
+    prod.unidades = this.form.num_viaj;
+    prod.importe = this.form.num_viaj * prod.precio_unitario *
+                   (this.form.clase == "turista" ? 
+                    1 : (this.form.clase == "bussiness" ? 
+                      prod.porc_buss : prod.porc_prim))
+    this.vuelosService.anyadeProdCesta(prod).subscribe(
+      res => {
+        this.router.navigate(['/cesta']);
+      },
+      err => { console.log(err); }
+    );
   }
 }

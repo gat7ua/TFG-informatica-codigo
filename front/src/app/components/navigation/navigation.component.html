@@ -11,10 +11,17 @@
                 <a class="nav-link" routerLink="/vuelos" routerLinkActive="active">Vuelos</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" routerLink="/autobuses" routerLinkActive="active">Autobuses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/trenes" routerLinkActive="active">Trenes</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" routerLink="/alojamientos" routerLinkActive="active">Alojamientos</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                  [hidden]="!authService.loggedIn() || authService.getRolUsuario() !== 'admin'">
                   Gestionar
                 </a>
                 <ul class="dropdown-menu">
@@ -24,16 +31,27 @@
                   <li><a class="dropdown-item" routerLink="/estautobuses">Estaciones autobus</a></li>
                   <li><a class="dropdown-item" routerLink="/esttrenes">Estaciones de tren</a></li>
                   <li><a class="dropdown-item" routerLink="/vuelos/list">Vuelos</a></li>
+                  <li><a class="dropdown-item" routerLink="/autobuses/list">Autobuses</a></li>
+                  <li><a class="dropdown-item" routerLink="/trenes/list">Trenes</a></li>
                 </ul>
               </li>
             </ul>
             <span class="navbar-text">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/login">Iniciar sesión</a>
+                  <a class="nav-link" routerLink="/login" [hidden]="authService.loggedIn()">Iniciar sesión</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/registro">Registro</a>
+                  <a class="nav-link" routerLink="/registro" [hidden]="authService.loggedIn()">Registro</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/perfil" [hidden]="!authService.loggedIn()">Buenas {{authService.getUserName()}}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" style="cursor:pointer" (click)="authService.logOut()" [hidden]="!authService.loggedIn()">Cerrar sesión</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/cesta" [hidden]="!authService.loggedIn()"><i class="fa fa-cart-shopping fa-flip-horizontal fa-xl"></i></a>
                 </li>
               </ul>
             </span>

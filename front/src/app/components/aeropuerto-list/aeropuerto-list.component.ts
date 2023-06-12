@@ -39,8 +39,4 @@ export class AeropuertoListComponent {
     );
   }
 
-  cuenta(id: string, tipo: string): number {
-    return this.vuelosService.cuentaVuelos(id, tipo);
-  }
-
 }

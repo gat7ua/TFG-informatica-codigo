@@ -1,14 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ProductosService } from './productos.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class VuelosService {
-
-  API_URL = 'http://localhost:4500/api';
-
-  constructor(private http: HttpClient) { }
+export class VuelosService extends ProductosService {
 
   getVuelos() { //TODO
     return this.http.get(`${this.API_URL}/vuelos`);
@@ -52,31 +48,5 @@ export class VuelosService {
 
   putAeropuerto(aeropuerto: any) { //TODO
     return this.http.put(`${this.API_URL}/aeropuerto/${aeropuerto.id_aero}`, aeropuerto);
-  }
-
-  cuentaVuelos(id_aero: string, tipo: string): number {
-    var consul;
-    if (tipo == "ida") 
-      this.http.get(`${this.API_URL}/aeropuerto/cuentaida/${id_aero}`).subscribe(
-        res => { consul = res; },
-        err => { console.log(err); }
-      );
-    else 
-    this.http.get(`${this.API_URL}/aeropuerto/cuentavue/${id_aero}`).subscribe(
-      res => { consul = res; },
-      err => { console.log(err); }
-    );
-    console.log(consul);
-    return 10;
-  }
-
-  public imprimirFecha(fecha: any): string {
-    var pFec: Date = new Date(fecha);
-    return pFec.getDate().toString().concat("/")
-          .concat((pFec.getMonth()+1).toString()).concat("/")
-          .concat(pFec.getFullYear().toString()).concat(" a las ")
-          .concat(pFec.getHours().toString()).concat(":")
-          .concat(pFec.getMinutes().toString())
-        ;
   }
 }

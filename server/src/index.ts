@@ -11,6 +11,8 @@ import abs from './routes/autobusesRoutes';
 import ear from './routes/estAutobusRoutes';
 import etr from './routes/estTrenController';
 import prr from './routes/proveedorRoutes';
+import trs from './routes/trenesRoutes';
+import pdr from './routes/pedidosRoutes';
 
 class Server {
 
@@ -40,6 +42,8 @@ class Server {
         this.app.use('/api/estautobus', ear);
         this.app.use('/api/esttren', etr);
         this.app.use('/api/proveedor', prr);
+        this.app.use('/api/trenes', trs);
+        this.app.use('/api/pedido', pdr);
     }
 
     start(): void {

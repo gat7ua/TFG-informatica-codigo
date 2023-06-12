@@ -1,0 +1,199 @@
+<div class="container p-4">
+<div class="container">
+    <div class="col-md-10 offset-md-1">
+        <div class="card">
+            <div class="card-header">
+                Buscador de autobuses
+            </div>
+            <div class="card-body row">
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlInput1" class="form-label">Desde</label>
+                    <input class="form-control" list="datalistOptions" id="desdeList"
+                        placeholder="Escriba para buscar..." [(ngModel)]="form.desde">
+                    <datalist id="datalistOptions">
+                        <option *ngFor="let esta of this.estsautobus" [value]="esta.id_esau">
+                            {{esta.nombre}}
+                        </option>
+                    </datalist>
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">A</label>
+                    <input class="form-control" list="datalistOptions" id="haciaList"
+                        placeholder="Escriba para buscar..." [(ngModel)]="form.hacia">
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">Clase</label>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="form.clase">
+                        <option selected value="turista">Turista</option>
+                        <option value="bussiness">Bussiness</option>
+                        <option value="primera">Primera</option>
+                    </select>
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">Ida</label>
+                    <input type="date" class="form-control" class="form-control" id="ida" placeholder=""
+                        [(ngModel)]="form.ida">
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="exampleFormControlTextarea1" class="form-label">Vuelta</label>
+                    <input type="date" class="form-control" class="form-control" id="vuelta" placeholder=""
+                        [(ngModel)]="form.vuelta">
+                </div>
+                <div class="mb-3 col-md-2">
+                    <label for="exampleFormControlTextarea1" class="form-label">Viajeros</label>
+                    <input type="number" min="0" max="10" class="form-control" class="form-control" id="viajeros"
+                        placeholder="" [(ngModel)]="form.num_viaj">
+                </div>
+                <div class="mb-3 col-md-2">
+                    <button class="btn btn-success mt-3" type="submit" name="email" (click)="buscar()" [disabled]="form.desde == '' || form.clase == '' || form.ida == '' || form.num_viaj == 0
+                                 || (form.vuelta != '' && form.vuelta < form.ida)">
+                        Buscar
+                    </button>
+                </div>
+                <label style="color: rgb(197, 21, 21);"
+                    [hidden]="(form.ida == '' || form.vuelta == '') || form.vuelta > form.ida">
+                    <b>Debe seleccionar una fecha de vuelta posterior a la de ida</b>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4 col-md-10 offset-md-1">
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="collapsed accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Filtros
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <h4>Filtros</h4>
+                    <div class="container row">
+                        <div class="container mb-3 col-md-3">
+                            <label for="">Precio máximo</label>
+                            <input type="text" class="form-control" class="form-control" id="pmax" placeholder=""
+                                [(ngModel)]="filtro.pmax">
+                        </div>
+                        <div class="container mb-3 col-md-3">
+                            <label for="">Hora desde</label>
+                            <input type="time" class="form-control" class="form-control" id="hdesde" placeholder=""
+                                [(ngModel)]="filtro.hdesde">
+                        </div>
+                        <div class="container mb-3 col-md-3">
+                            <label for="">Hora hasta</label>
+                            <input type="time" class="form-control" class="form-control" id="hhasta" placeholder=""
+                                [(ngModel)]="filtro.hhasta">
+                        </div>
+                    </div>
+                    <h4>Ordenar</h4>
+                    <div class="container">
+                        <select class="form-select" aria-label="ordenFiltro" [(ngModel)]="filtro.orden">
+                            <option selected>Elige un metodo de ordenación</option>
+                            <option value="1">Precio ascendente</option>
+                            <option value="2">Precio descendente</option>
+                            <option value="3">Hora ascendente</option>
+                            <option value="4">Hora descendente</option>
+                        </select>                     
+                    </div>
+                    <button class="btn btn-success mt-3" type="submit" name="email" (click)="buscar()" [disabled]="form.desde == '' || form.clase == '' || form.ida == '' || form.num_viaj == 0
+                         || (form.vuelta != '' && form.vuelta < form.ida)">
+                        Filtrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-2" id="resIdas" hidden>
+    <div class="col-md-8 offset-md-2">
+        <h3>Resultados</h3>
+        <div class="card">
+            <div class="card-header">
+                {{idas.length}} autobuses de ida
+            </div>
+            <div class="card-body">
+                <div *ngFor="let autobus of paginIdas" class="container row ml-2 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            Desde: {{autobus.esta_sal_nombre}} - A: {{autobus.esta_lleg_nombre}}
+                            <br>
+                            Fecha: {{autobusesService.imprimirFecha(autobus.fecha)}}
+                            <br>
+                            {{form.num_viaj}} viajeros en clase {{form.clase}}
+                            Precio: {{form.num_viaj}} x {{autobus.precio_unitario *
+                            (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? autobus.porc_buss :
+                            autobus.porc_prim))}} = {{
+                            form.num_viaj * autobus.precio_unitario *
+                            (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? autobus.porc_buss :
+                            autobus.porc_prim))
+                            }}
+                            <br>
+                            <button (click)="anayadeCesta(autobus)" class="btn btn-success mt-3">Añadir a cesta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li [hidden]="indActualIda == 0" class="page-item"><a class="page-link"
+                    (click)="paginar(indActualIda - numPagina, 'ida')"><i class="fa fa-arrow-left"
+                        aria-hidden="true"></i></a></li>
+            <li class="page-item" *ngFor="let paginaI of indicesIda"><a class="page-link"
+                    (click)="paginar(paginaI.indice,'ida')"> {{paginaI.pagina}} </a></li>
+            <li [hidden]="indActualIda >= maxIndIda" class="page-item"><a class="page-link"
+                    (click)="paginar(indActualIda + numPagina, 'ida')"><i class="fa fa-arrow-right"
+                        aria-hidden="true"></i></a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="container mt-4" id="resVueltas" hidden>
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                {{vueltas.length}} autobuses de vuelta
+            </div>
+            <div class="card-body">
+                <div *ngFor="let autobus of vueltas" class="container row ml-2 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            Desde: {{autobus.aero_sal_nombre}} - A: {{autobus.aero_lleg_nombre}}
+                            <br>
+                            Fecha: {{autobusesService.imprimirFecha(autobus.fecha)}}
+                            <br>
+                            {{form.num_viaj}} viajeros en clase {{form.clase}}
+                            Precio: {{form.num_viaj}} x {{autobus.precio_unitario *
+                            (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? autobus.porc_buss :
+                            autobus.porc_prim))}} = {{
+                            form.num_viaj * autobus.precio_unitario *
+                            (form.clase == "turista" ? 1 : (form.clase == "bussiness" ? autobus.porc_buss :
+                            autobus.porc_prim))
+                            }}
+                            <br>
+                            <button class="btn btn-success mt-3">Añadir a cesta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li [hidden]="indActualVuelta == 0" class="page-item"><a class="page-link"
+                    (click)="paginar(indActualVuelta - numPagina,'vuelta')"><i class="fa fa-arrow-left"
+                        aria-hidden="true"></i></a></li>
+            <li class="page-item" *ngFor="let paginaV of indicesVuelta"><a class="page-link"
+                    (click)="paginar(paginaV.indice,'vuelta')"> {{paginaV.pagina}} </a></li>
+            <li [hidden]="indActualVuelta >= maxIndVuelta" class="page-item"><a class="page-link"
+                    (click)="paginar(indActualIda + numPagina,'vuelta')"><i class="fa fa-arrow-right"
+                        aria-hidden="true"></i></a></li>
+        </ul>
+    </nav>
+</div>
+</div>

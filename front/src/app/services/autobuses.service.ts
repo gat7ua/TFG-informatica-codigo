@@ -1,16 +1,13 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Autobus } from '../models/Autobus';
+import { ProductosService } from './productos.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AutobusesService {
+export class AutobusesService extends ProductosService {
 
-  API_URL = 'http://localhost:4500/api';
-
-  constructor(private http: HttpClient) { }
-
-  getAutobuses() { //TODO
+  getAutobuses() {
     return this.http.get(`${this.API_URL}/autobuses`);
   }
 
@@ -18,39 +15,39 @@ export class AutobusesService {
     return this.http.post(`${this.API_URL}/autobuses/busqueda`, form);
   }
 
-  getAutobus(id: string) { //TODO
+  getAutobus(id: string) {
     return this.http.get(`${this.API_URL}/autobuses/${id}`);
   }
 
-  postAutobus() { //TODO
-    //return this.http.post(`${this.API_URL}/ciudad`, ciudad);
+  postAutobus(autobus: Autobus) {
+    return this.http.post(`${this.API_URL}/autobuses`, autobus);
   }
 
-  deleteAutobus(id: string) { //TODO
-    //return this.http.delete(`${this.API_URL}/ciudad/${id}`);
+  deleteAutobus(id: string) {
+    return this.http.delete(`${this.API_URL}/autobuses/${id}`);
   }
 
-  putAutobus() { //TODO
-    //return this.http.put(`${this.API_URL}/ciudad/${ciudad.id_ciud}`, ciudad);
+  putAutobus(autobus: Autobus) {
+    return this.http.put(`${this.API_URL}/autobuses/${autobus.id_prod}`, autobus);
   }
 
-  getEstsAutobus() { //TODO
+  getEstsAutobus() { 
     return this.http.get(`${this.API_URL}/estautobus`);
   }
 
-  getEstAutobus(id: string) { //TODO
+  getEstAutobus(id: string) { 
     return this.http.get(`${this.API_URL}/estautobus/${id}`);
   }
 
-  postEstAutobus(estautobus: any) { //TODO
+  postEstAutobus(estautobus: any) { 
     return this.http.post(`${this.API_URL}/estautobus`, estautobus);
   }
 
-  deleteEstAutobus(id: string) { //TODO
+  deleteEstAutobus(id: string) { 
     return this.http.delete(`${this.API_URL}/estautobus/${id}`);
   }
 
-  putEstAutobus(estautobus: any) { //TODO
+  putEstAutobus(estautobus: any) {
     return this.http.put(`${this.API_URL}/estautobus/${estautobus.id_esau}`, estautobus);
   }
 }

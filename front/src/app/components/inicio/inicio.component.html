@@ -1,38 +1,126 @@
-<div id="carouselExampleCaptions" class="carousel carousel-dark slide">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+<div id="carouselExampleCaptions" class="carousel slide d-flex align-items-center justify-content-center"
+  style="height: 400px;">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+      aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner" style="height: 400px;">
+    <div class="carousel-item active">
+      <a routerLink="/trenes">
+        <div class="carousel-caption d-none d-md-block position-absolute top-0">
+          <h5>Buscando experiencias</h5>
+          <p>Nada mejor que una ruta en tren por Europa</p>
         </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="../../../assets/aubo.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>First slide label</h5>
-              <p>Some representative placeholder content for the first slide.</p>
+        <img src="../../../assets/aubo.jpg" class="d-block w-100" alt="..." style="margin-top: -250px;">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a routerLink="/alojamientos">
+        <img src="../../../assets/bhms.jpg" class="d-block w-100" alt="..." style="margin-top: -250px;">
+        <div class="carousel-caption d-none d-md-block  position-absolute top-0">
+          <h5>Estancias para disfrutar</h5>
+          <p>Allá donde te alojes, necesitarás confort, atención y un buen servicio</p>
+        </div>
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a routerLink="/vuelos">
+        <img src="../../../assets/mcpc.jpg" class="d-block w-100" alt="..." style="margin-top: -250px;">
+        <div class="carousel-caption d-none d-md-block position-absolute top-0">
+          <h5>Grandes viajes</h5>
+          <p>Busca vuelos a lugares lejanos y disfruta de grandes experiencias</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="container p-4">
+  <ul class="nav nav-tabs p-2">
+    <li class="nav-item">
+      <div class="nav-link active">Vuelos</div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/autobuses">Autobuses</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/trenes">Trenes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/alojamientos">Alojamientos</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="container p-4">
+      <div class="container">
+        <div class="col-md-10 offset-md-1">
+          <div class="card">
+            <div class="card-header">
+              Buscador de vuelos
             </div>
-          </div>
-          <div class="carousel-item">
-            <img src="../../../assets/mcpc.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>Second slide label</h5>
-              <p>Some representative placeholder content for the second slide.</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <img src="../../../assets/bhms.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>Third slide label</h5>
-              <p>Some representative placeholder content for the third slide.</p>
+            <div class="card-body row">
+              <div class="mb-3 col-md-4">
+                <label for="exampleFormControlInput1" class="form-label">Desde</label>
+                <input class="form-control" list="datalistOptions" id="desdeList" placeholder="Escriba para buscar..."
+                  [(ngModel)]="formV.desde">
+                <datalist id="datalistOptions">
+                  <option *ngFor="let aero of this.aeropuertos" [value]="aero.id_aero">
+                    {{aero.nombre}} ({{aero.cod_iata}})
+                  </option>
+                </datalist>
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="exampleFormControlTextarea1" class="form-label">A</label>
+                <input class="form-control" list="datalistOptions" id="haciaList" placeholder="Escriba para buscar..."
+                  [(ngModel)]="formV.hacia">
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="exampleFormControlTextarea1" class="form-label">Clase</label>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="formV.clase">
+                  <option selected value="turista">Turista</option>
+                  <option value="bussiness">Bussiness</option>
+                  <option value="primera">Primera</option>
+                </select>
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="exampleFormControlTextarea1" class="form-label">Ida</label>
+                <input type="date" class="form-control" class="form-control" id="ida" placeholder=""
+                  [(ngModel)]="formV.ida">
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="exampleFormControlTextarea1" class="form-label">Vuelta</label>
+                <input type="date" class="form-control" class="form-control" id="vuelta" placeholder=""
+                  [(ngModel)]="formV.vuelta">
+              </div>
+              <div class="mb-3 col-md-2">
+                <label for="exampleFormControlTextarea1" class="form-label">Viajeros</label>
+                <input type="number" min="0" max="10" class="form-control" class="form-control" id="viajeros"
+                  placeholder="" [(ngModel)]="formV.num_viaj">
+              </div>
+              <div class="mb-3 col-md-2">
+                <button class="btn btn-success mt-3" type="submit" name="email" (click)="buscarV()" [disabled]="formV.desde == '' || formV.clase == '' || formV.ida == '' || formV.num_viaj == 0
+                                         || (formV.vuelta != '' && formV.vuelta < formV.ida)">
+                  Buscar
+                </button>
+              </div>
+              <label style="color: rgb(197, 21, 21);"
+                [hidden]="(formV.ida == '' || formV.vuelta == '') || formV.vuelta > formV.ida">
+                <b>Debe seleccionar una fecha de vuelta posterior a la de ida</b>
+              </label>
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
+    </div>
+  </div>
+</div>

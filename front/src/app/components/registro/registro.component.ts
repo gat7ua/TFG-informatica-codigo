@@ -12,6 +12,8 @@ import * as shajs from 'sha.js'
 })
 export class RegistroComponent {
 
+  error: string = "";
+
   usuario: Usuario = {
     id_usua: 0,
     nif: '',
@@ -28,7 +30,7 @@ export class RegistroComponent {
   
   constructor(private authService: AuthService, private router: Router, private activateRoute: ActivatedRoute) {}
 
-  registrar() {
+  async registrar() {
     if (this.usuario.contras !== undefined && this.passconf !== undefined) {
       this.usuario.password = shajs('sha256').update(this.usuario.contras).digest('hex');
       this.usuario.password = shajs('sha256').update(this.passconf).digest('hex');
@@ -36,14 +38,9 @@ export class RegistroComponent {
       this.passconf = '';
       console.log(this.usuario);
     }
-    this.authService.registro(this.usuario)
-      .subscribe(
-        res => {
-          console.log(res);          
-          this.router.navigate(['/']);
-        },
-        err => {console.error(err)}
-      ); 
+    var str: string = await this.authService.registro(this.usuario);
+    if (str == "correcto")  
+      this.router.navigate(['/']);
   }
 
 }

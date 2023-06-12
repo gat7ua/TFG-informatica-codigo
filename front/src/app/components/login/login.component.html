@@ -1,3 +1,4 @@
+<div class="container p-4">
 <div class="container row">
     <div class="col-md-4 offset-md-4">
         <div class="card">
@@ -5,19 +6,30 @@
                 Inicio de sesión
             </div>
             <div class="card-body">
-                <form>
+                <form class="needs-validation">
                     <div class="form-group mb-3">
-                        <input type="email" name="email" placeholder="Email" class="form-control" [(ngModel)]="usuario.email" autofocus required>
+                        <input type="email" name="email" placeholder="Email" class="form-control" [(ngModel)]="usuario.email" autofocus 
+                            id="userValida" required>
+                        <div class="invalid-feedback">
+                            Introduzca un correo electrónico válido. 
+                        </div>
                     </div>
                     <div class="form-group mb-3">
-                        <input type="password" name="contras" placeholder="Contraseña" class="form-control" [(ngModel)]="usuario.contras" required>
+                        <input type="password" name="contras" placeholder="Contraseña" class="form-control" [(ngModel)]="usuario.contras"
+                            id="contraValida" required>
+                        <div class="invalid-feedback">
+                            Introduzca una contraseña de más de 6 caracteres.
+                        </div>
                     </div>
                     <div class="d-grid gap-2">
                         <button class="btn btn-success" type="submit" name="email" (click)="login()"
                             [disabled]="usuario.email == '' || usuario.contras == ''">
                             Enviar
                         </button>
-                    </div>        
+                    </div>                        
+                    <div class="alert alert-danger mt-3" role="alert" id="alertaFallo" hidden>
+                        Usuario y/o contraseña erróneos.
+                    </div>    
                 </form>
             </div>
         </div>
@@ -26,4 +38,4 @@
         ¿Aún no tienes cuenta? Regístrate <a routerLink="/registro">aquí</a>
     </div>
 </div>
-
+</div>

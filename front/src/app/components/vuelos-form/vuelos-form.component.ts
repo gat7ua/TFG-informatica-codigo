@@ -97,7 +97,7 @@ export class VuelosFormComponent {
   }
 
   editarVuelo() {
-    this.vuelo.id_prod = parseInt(this.aerolleg);
+    this.vuelo.aero_llegad = parseInt(this.aerolleg);
     this.vuelo.aero_salida = parseInt(this.aerosal);
     this.vuelo.id_prov = parseInt(this.prove);
     if (!!this.vuelo.porc_buss)

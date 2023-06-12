@@ -1,0 +1,42 @@
+<div class="container p-4">
+    <div class="container row">
+        <div class="col-md-4 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    Editar Usuario
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group mb-3">
+                            <input type="text" name="nombre" [(ngModel)]="usuario.nombre" placeholder="Nombre" class="form-control" autofocus>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="apelldo1" [(ngModel)]="usuario.apellido1" placeholder="Primer apellido" class="form-control">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="apelldo2" [(ngModel)]="usuario.apellido2" placeholder="Segundo apellido" class="form-control">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="direccion" [(ngModel)]="usuario.direccion" placeholder="Dirección" class="form-control">
+                        </div>
+                        <div class="d-grid gap-2">    
+                            <button class="btn btn-success" type="button" (click)="editarUsuario()">
+                                Enviar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <a class="btn btn-outline-danger mt-3" routerLink="/perfil"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-body text-center">
+                {{usuario.email == '' ? 'Email' : usuario.email}} <br>
+                {{usuario.nombre == '' ? 'Nombre' : usuario.nombre}} <br>
+                {{usuario.apellido1 == '' ? 'Primer apellido' : usuario.apellido1}} <br>
+                {{usuario.apellido2 == '' ? 'Segundo apellido' : usuario.apellido2}} <br>
+                {{usuario.direccion == '' ? 'Dirección' : usuario.direccion}} <br>
+            </div>
+        </div>
+        </div>
+    </div>

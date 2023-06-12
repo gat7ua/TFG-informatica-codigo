@@ -27,6 +27,15 @@ import { VuelosFormComponent } from './components/vuelos-form/vuelos-form.compon
 import { VuelosListComponent } from './components/vuelos-list/vuelos-list.component';
 import { ProveedorListComponent } from './components/proveedor-list/proveedor-list.component';
 import { ProveedorFormComponent } from './components/proveedor-form/proveedor-form.component';
+import { AutobusesBuscaComponent } from './components/autobuses-busca/autobuses-busca.component';
+import { AutobusesFormComponent } from './components/autobuses-form/autobuses-form.component';
+import { AutobusesListComponent } from './components/autobuses-list/autobuses-list.component';
+import { TrenesBuscaComponent } from './components/trenes-busca/trenes-busca.component';
+import { TrenesFormComponent } from './components/trenes-form/trenes-form.component';
+import { TrenesListComponent } from './components/trenes-list/trenes-list.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { PerfilEditarComponent } from './components/perfil-editar/perfil-editar.component';
+import { CestaComponent } from './components/cesta/cesta.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +56,16 @@ import { ProveedorFormComponent } from './components/proveedor-form/proveedor-fo
     VuelosFormComponent,
     VuelosListComponent,
     ProveedorListComponent,
-    ProveedorFormComponent
+    ProveedorFormComponent,
+    AutobusesBuscaComponent,
+    AutobusesFormComponent,
+    AutobusesListComponent,
+    TrenesBuscaComponent,
+    TrenesFormComponent,
+    TrenesListComponent,
+    PerfilComponent,
+    PerfilEditarComponent,
+    CestaComponent
   ],
   imports: [
     BrowserModule,

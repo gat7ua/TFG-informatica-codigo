@@ -7,5 +7,6 @@ export interface Usuario {
     email?: string,
     contras?: string,
     password?: string,
-    direccion?: string
+    direccion?: string,
+    token?: string
 }

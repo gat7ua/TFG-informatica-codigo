@@ -1,0 +1,65 @@
+<div class="container p-4">
+    <div class="d-flex align-items-center mt-15" id="carga">
+        <strong>Loading...</strong>
+        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+      </div>
+
+<div class="container" id="todo" hidden>
+    <div class="text-center">
+        <h1>Autobuses</h1>
+    </div>
+
+    <table class="table table-striped table-hover px-0">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Asientos tur</th>
+                <th scope="col">Asientos buss</th>
+                <th scope="col">Asientos prim</th>
+                <th scope="col">Precio</th> 
+                <th scope="col">Porcent. buss</th>
+                <th scope="col">Porcent. prim</th>
+                <th scope="col">Origen</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Proveedor</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let autobus of autobVer">
+                <th scope="row">
+                    {{autobus.id_prod}}
+                    <div class="d-grid gap-0 d-md-block">
+                        <a class="btn btn-success btn-sm" [routerLink]="['/autobuses/modify', autobus.id_prod]">Editar</a> 
+                        <button class="btn btn-danger btn-sm" (click)="deleteAutobus(autobus.id_prod)">Borrar</button>
+                      </div>
+                </th>
+                <td>{{autobusesService.imprimirFecha(autobus.fecha)}}</td>
+                <td>{{autobus.num_asi_tur - autobus.ocup_asi_tur}}</td>
+                <td>{{autobus.num_asi_buss - autobus.ocup_asi_buss}}</td>
+                <td>{{autobus.num_asi_prim - autobus.ocup_asi_prim}}</td>
+                <td>{{autobus.precio_unitario}}</td> 
+                <td>{{autobus.porc_buss}}</td>
+                <td>{{autobus.porc_prim}}</td>
+                <td>{{autobus.esta_sal_nombre}}</td>
+                <td>{{autobus.esta_lleg_nombre}}</td>
+                <td>{{autobus.nombre_prov}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li [hidden]="indActual == 0" class="page-item"><a class="page-link"
+                    (click)="paginar(indActual - numPagina)"><i class="fa fa-arrow-left"
+                        aria-hidden="true"></i></a></li>
+            <li class="page-item" *ngFor="let paginaV of indices"><a class="page-link"
+                    (click)="paginar(paginaV.indice)"> {{paginaV.pagina}} </a></li>
+            <li [hidden]="indActual >= maxIndice" class="page-item"><a class="page-link"
+                    (click)="paginar(indActual+ numPagina)"><i class="fa fa-arrow-right"
+                        aria-hidden="true"></i></a></li>
+        </ul>
+    </nav>
+
+    <a routerLink="/autobuses/add" class="btn btn-success btn-block mt-4">Añadir autobus</a>
+</div>
+</div>

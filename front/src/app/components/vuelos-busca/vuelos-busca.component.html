@@ -1,3 +1,4 @@
+<div class="container p-4">
 <div class="container">
     <div class="col-md-10 offset-md-1">
         <div class="card">
@@ -131,7 +132,7 @@
                             vuelo.porc_prim))
                             }}
                             <br>
-                            <button class="btn btn-success mt-3">Añadir a cesta</button>
+                            <button (click)="anayadeCesta(vuelo)" class="btn btn-success mt-3">Añadir a cesta</button>
                         </div>
                     </div>
                 </div>
@@ -195,7 +196,7 @@
         </ul>
     </nav>
 </div>
-
+</div>
 <!--
 aero_lleg_nombre    aero_llegad        aero_sal_nombre
 aero_salida         cod_iata_lleg      cod_iata_sal

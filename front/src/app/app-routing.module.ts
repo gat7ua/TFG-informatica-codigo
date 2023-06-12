@@ -17,6 +17,15 @@ import { VuelosFormComponent } from './components/vuelos-form/vuelos-form.compon
 import { VuelosListComponent } from './components/vuelos-list/vuelos-list.component';
 import { ProveedorListComponent } from './components/proveedor-list/proveedor-list.component';
 import { ProveedorFormComponent } from './components/proveedor-form/proveedor-form.component';
+import { AutobusesBuscaComponent } from './components/autobuses-busca/autobuses-busca.component';
+import { AutobusesFormComponent } from './components/autobuses-form/autobuses-form.component';
+import { AutobusesListComponent } from './components/autobuses-list/autobuses-list.component';
+import { TrenesBuscaComponent } from './components/trenes-busca/trenes-busca.component';
+import { TrenesListComponent } from './components/trenes-list/trenes-list.component';
+import { TrenesFormComponent } from './components/trenes-form/trenes-form.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { PerfilEditarComponent } from './components/perfil-editar/perfil-editar.component';
+import { CestaComponent } from './components/cesta/cesta.component';
 
 const routes: Routes = [
   //Inicio
@@ -33,6 +42,18 @@ const routes: Routes = [
   {
     path: 'registro',
     component: RegistroComponent
+  },
+  {
+    path: 'perfil',
+    component: PerfilComponent
+  },
+  {
+    path: 'perfil/editar',
+    component: PerfilEditarComponent
+  },
+  {
+    path: 'cesta',
+    component: CestaComponent
   },
 
   //Vuelos
@@ -66,10 +87,22 @@ const routes: Routes = [
   },
 
   //Autobus
-  /*{
+  {
     path: 'autobuses',
-    component: VuelosBuscaComponent
-  },*/
+    component: AutobusesBuscaComponent
+  },
+  {
+    path: 'autobuses/list',
+    component: AutobusesListComponent
+  },
+  {
+    path: 'autobuses/add',
+    component: AutobusesFormComponent
+  },
+  {
+    path: 'autobuses/modify/:id',
+    component: AutobusesFormComponent
+  },
   {
     path:'estautobuses',
     component: EstacAutobusListComponent
@@ -84,10 +117,22 @@ const routes: Routes = [
   },
 
   //Tren
-  /*{
+  {
     path: 'trenes',
-    component: VuelosBuscaComponent
-  },*/
+    component: TrenesBuscaComponent
+  },
+  {
+    path: 'trenes/list',
+    component: TrenesListComponent
+  },
+  {
+    path: 'trenes/add',
+    component: TrenesFormComponent
+  },
+  {
+    path: 'trenes/modify/:id',
+    component: TrenesFormComponent
+  },
   {
     path:'esttrenes',
     component: EstacTrenListComponent

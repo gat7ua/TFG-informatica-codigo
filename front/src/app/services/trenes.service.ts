@@ -1,16 +1,13 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Tren } from '../models/Tren';
+import { ProductosService } from './productos.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TrenesService {
+export class TrenesService extends ProductosService {
 
-  API_URL = 'http://localhost:4500/api';
-
-  constructor(private http: HttpClient) { }
-
-  getTrenes() { //TODO
+  getTrenes() { 
     return this.http.get(`${this.API_URL}/trenes`);
   }
 
@@ -18,39 +15,39 @@ export class TrenesService {
     return this.http.post(`${this.API_URL}/trenes/busqueda`, form);
   }
 
-  getTren(id: string) { //TODO
+  getTren(id: string) { 
     return this.http.get(`${this.API_URL}/trenes/${id}`);
   }
 
-  postTren() { //TODO
-    //return this.http.post(`${this.API_URL}/ciudad`, ciudad);
+  postTren(tren: Tren) { 
+    return this.http.post(`${this.API_URL}/trenes`, tren);
   }
 
-  deleteTren(id: string) { //TODO
-    //return this.http.delete(`${this.API_URL}/ciudad/${id}`);
+  deleteTren(id: string) { 
+    return this.http.delete(`${this.API_URL}/trenes/${id}`);
   }
 
-  putTren() { //TODO
-    //return this.http.put(`${this.API_URL}/ciudad/${ciudad.id_ciud}`, ciudad);
+  putTren(tren: Tren) { 
+    return this.http.put(`${this.API_URL}/trenes/${tren.id_prod}`, tren);
   }
 
-  getEstsTren() { //TODO
+  getEstsTren() { 
     return this.http.get(`${this.API_URL}/esttren`);
   }
 
-  getEstTren(id: string) { //TODO
+  getEstTren(id: string) { 
     return this.http.get(`${this.API_URL}/esttren/${id}`);
   }
 
-  postEstTren(esttren: any) { //TODO
+  postEstTren(esttren: any) { 
     return this.http.post(`${this.API_URL}/esttren`, esttren);
   }
 
-  deleteEstTren(id: string) { //TODO
+  deleteEstTren(id: string) {
     return this.http.delete(`${this.API_URL}/esttren/${id}`);
   }
 
-  putEstTren(esttren: any) { //TODO
+  putEstTren(esttren: any) { 
     return this.http.put(`${this.API_URL}/esttren/${esttren.id_estr}`, esttren);
   }
 }

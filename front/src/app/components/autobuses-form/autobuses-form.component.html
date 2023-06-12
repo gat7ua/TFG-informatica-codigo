@@ -1,0 +1,119 @@
+<div class="container p-4">
+<div class="container row">
+    <div class="col-md-4 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                {{editar == true ? 'Editar autobús' : 'Añadir autobús'}}
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Precio unitario del billete</label>
+                        <input type="text" name="preciounit" [(ngModel)]="autobus.precio_unitario"
+                            placeholder="Precio del billete" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Asientos de categoría turista</label>
+                        <input type="number" name="uds_tur" [(ngModel)]="autobus.num_asi_tur"
+                            placeholder="Asientos ceteg. turista" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Asientos de categoría bussiness</label>
+                        <input type="number" name="uds_bus" [(ngModel)]="autobus.num_asi_buss"
+                            placeholder="Asientos ceteg. bussiness" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Asientos de primera categoría</label>
+                        <input type="number" name="uds_pri" [(ngModel)]="autobus.num_asi_prim"
+                            placeholder="Asientos ceteg. primera" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Fecha y hora de salida del autobús</label>
+                        <input type="datetime-local" name="fecha" [(ngModel)]="autobus.fecha"
+                            placeholder="Fecha y hora de salida" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Estación de salida</label>
+                        <input class="form-control" type="text" list="estacionesList" name="listaEstasa"
+                            id="listaEstasa" placeholder="Buscar estación origen..." [(ngModel)]="estasal">
+                        <datalist id="estacionesList">
+                            <option *ngFor="let estaci of this.estaciones" [value]="estaci.id_esau">
+                                {{estaci.nombre}}
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Estación de llegada</label>
+                        <input class="form-control" type="text" list="estacionesList" name="listaEstall"
+                            id="listaEstall" placeholder="Buscar estación destino..." [(ngModel)]="estalleg">
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Incremento precio categoría bussiness</label>
+                        <input type="number" min="0" name="porc_bus" [(ngModel)]="autobus.porc_buss"
+                            placeholder="Porcentaje respecto a categ. turista" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Incremento precio primera categoría</label>
+                        <input type="number" min="0" name="porc_pri" [(ngModel)]="autobus.porc_prim"
+                            placeholder="Porcentaje respecto a categ. turista" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Proveedor</label>
+                        <input class="form-control" type="text" list="proveList" name="listaProve" id="listaProve"
+                            placeholder="Buscar proveedor..." [(ngModel)]="prove">
+                        <datalist id="proveList">
+                            <option *ngFor="let prov of this.proveedores" [value]="prov.id_prov">
+                                {{prov.nombre}}, {{prov.sede}}
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="" class="form-label">Duración del autobús</label>
+                        <input type="time" name="duraci" [(ngModel)]="autobus.duracion" placeholder="Duracion autobús"
+                            class="form-control">
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success" type="button"
+                            (click)="editar == true ? editarAutobus() : guardarAutobus()">
+                            Enviar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a class="btn btn-outline-danger mt-3" routerLink="/autobuses/list"><i class="fa fa-arrow-left"
+                aria-hidden="true"></i></a>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-body">
+            <h4>Autobús resultante</h4>
+            Proveedor: {{obtenProveedor(prove) == '' ? 'Nombre' : obtenProveedor(prove)}}
+            <br>
+            Desde: {{obtenEstacion(estasal) == '' ? 'Estación salida' : obtenEstacion(estasal)}}
+            <br>
+            A: {{obtenEstacion(estalleg) == '' ? 'Estación llegada' : obtenEstacion(estalleg)}}
+            <br>
+            <br>
+            Fecha y hora: {{(autobus.fecha == "" ? "" : autobusService.imprimirFecha(autobus.fecha))}}
+            <br>
+            Duración: {{autobus.duracion}}
+            <br>
+            <br>
+            Número de asientos: <br>
+            {{autobus.num_asi_tur == undefined ? 0 : autobus.num_asi_tur}} turistas, <br>
+            {{autobus.num_asi_buss == undefined ? 0 : autobus.num_asi_buss}} en bussiness, <br>
+            {{autobus.num_asi_prim == undefined ? 0 : autobus.num_asi_prim}} en primera
+            <br>
+            <br>
+            Precio del billete: <br>
+            {{autobus.precio_unitario == undefined ? 0 : autobus.precio_unitario}}€ para turista, <br>
+            {{autobus.precio_unitario == undefined ? 0 :
+                autobus.porc_buss == undefined ? 0 : autobus.precio_unitario * (1 + autobus.porc_buss/100)}}€ en bussiness, <br>
+            {{autobus.precio_unitario == undefined ? 0 :
+                autobus.porc_prim == undefined ? 0 : autobus.precio_unitario * (1 + autobus.porc_prim/100)}}€ en primera, <br>
+        </div>
+    </div>
+</div>
+</div>
