@@ -4,8 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms'
 
-import { AuthModule } from '@auth0/auth0-angular';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
@@ -36,6 +34,21 @@ import { TrenesListComponent } from './components/trenes-list/trenes-list.compon
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { PerfilEditarComponent } from './components/perfil-editar/perfil-editar.component';
 import { CestaComponent } from './components/cesta/cesta.component';
+import { PasarelaPagoComponent } from './components/pasarela-pago/pasarela-pago.component';
+import { BlogComponent } from './components/blog/blog.component';
+import { UsuariosListComponent } from './components/usuarios-list/usuarios-list.component';
+import { AlojamientosBuscaComponent } from './components/alojamientos-busca/alojamientos-busca.component';
+import { AlojamientosFormComponent } from './components/alojamientos-form/alojamientos-form.component';
+import { AlojamientosListComponent } from './components/alojamientos-list/alojamientos-list.component';
+import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
+import { VehiculosBuscaComponent } from './components/vehiculos-busca/vehiculos-busca.component';
+import { BlogPostComponent } from './components/blog-post/blog-post.component';
+import { BlogFormComponent } from './components/blog-form/blog-form.component';
+import { NologinComponent } from './components/nologin/nologin.component';
+import { NoprivilegeComponent } from './components/noprivilege/noprivilege.component';
+import { ErrorComponent } from './components/error/error.component';
+import { OficinaFormComponent } from './components/oficina-form/oficina-form.component';
+import { OficinaListComponent } from './components/oficina-list/oficina-list.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +78,22 @@ import { CestaComponent } from './components/cesta/cesta.component';
     TrenesListComponent,
     PerfilComponent,
     PerfilEditarComponent,
-    CestaComponent
+    CestaComponent,
+    PasarelaPagoComponent,
+    BlogComponent,
+    UsuariosListComponent,
+    AlojamientosBuscaComponent,
+    AlojamientosFormComponent,
+    AlojamientosListComponent,
+    EstadisticasComponent,
+    VehiculosBuscaComponent,
+    BlogPostComponent,
+    BlogFormComponent,
+    NologinComponent,
+    NoprivilegeComponent,
+    ErrorComponent,
+    OficinaFormComponent,
+    OficinaListComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +102,8 @@ import { CestaComponent } from './components/cesta/cesta.component';
     FormsModule
   ],
   providers: [
-    CiudadService
+    CiudadService,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })

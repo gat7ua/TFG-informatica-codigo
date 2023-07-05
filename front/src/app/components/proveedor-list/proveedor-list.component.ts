@@ -1,4 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 
 @Component({
@@ -12,9 +14,13 @@ export class ProveedorListComponent {
 
   proveedores: any = [];
 
-  constructor(private proveedorService: ProveedorService) {}
+  constructor(private proveedorService: ProveedorService, protected authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     this.getProveedores();
   }
 

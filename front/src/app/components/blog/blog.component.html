@@ -1,0 +1,51 @@
+<div class="container p-4">
+    <div class="container text-center">
+    <h1>Bienvenido al blog</h1>
+    
+    <a routerLink="/blog/post/add" [hidden]="!authService.loggedIn()" class="btn btn-success btn-block mt-4">Crear una nueva publicación</a>
+    <br>
+    <br>
+    <div class="container row">
+    <div class="col-md-12 mt-6" *ngFor="let post of posts">
+        <div class="card text-center mt-4">
+            <div class="card-header d-flex">
+                <h4>{{post.titulo}}</h4>
+            </div>
+            <div class="card-body">
+                {{post.texto}}
+                <br>
+                <br>
+                {{post.nombreUsu}}: {{blogService.imprimirFecha(post.fecha)}}
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="card" *ngFor="let com of comenPubli(post.id_publ)">
+                            <div class="card-header">
+                                {{com.nombreUsu}} - {{blogService.imprimirFecha(com.fecha)}}
+                            </div>
+                            <div class="card-body">
+                                {{com.texto}}
+                                <br>
+                                <button class="btn btn-danger" [hidden]="com.usu == 'N'" (click)="deleteComment(post.id_publ, com.id_mens)">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" [hidden]="!authService.loggedIn()">
+                        <div class="container col-md-8">
+                            <div class="container p-3 form-floating">
+                                <input type="text" class="form-control" [(ngModel)]="prc[post.numerin].texto" placeholder="Leave a comment here" id="floatingTextarea">
+                                <label for="floatingTextarea">Escribe tu comentario</label>
+                            </div>
+                        </div>
+                        <div class="container col-md-2 mt-4">
+                            <button class="btn btn-success" (click)="postComentario(prc[post.numerin])">Enviar</button>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+    </div>
+    </div>

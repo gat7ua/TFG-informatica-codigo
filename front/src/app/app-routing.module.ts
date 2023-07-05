@@ -26,6 +26,20 @@ import { TrenesFormComponent } from './components/trenes-form/trenes-form.compon
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { PerfilEditarComponent } from './components/perfil-editar/perfil-editar.component';
 import { CestaComponent } from './components/cesta/cesta.component';
+import { PasarelaPagoComponent } from './components/pasarela-pago/pasarela-pago.component';
+import { AlojamientosBuscaComponent } from './components/alojamientos-busca/alojamientos-busca.component';
+import { AlojamientosListComponent } from './components/alojamientos-list/alojamientos-list.component';
+import { AlojamientosFormComponent } from './components/alojamientos-form/alojamientos-form.component';
+import { UsuariosListComponent } from './components/usuarios-list/usuarios-list.component';
+import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
+import { BlogComponent } from './components/blog/blog.component';
+import { VehiculosBuscaComponent } from './components/vehiculos-busca/vehiculos-busca.component';
+import { BlogFormComponent } from './components/blog-form/blog-form.component';
+import { NologinComponent } from './components/nologin/nologin.component';
+import { NoprivilegeComponent } from './components/noprivilege/noprivilege.component';
+import { ErrorComponent } from './components/error/error.component';
+import { OficinaListComponent } from './components/oficina-list/oficina-list.component';
+import { OficinaFormComponent } from './components/oficina-form/oficina-form.component';
 
 const routes: Routes = [
   //Inicio
@@ -54,6 +68,10 @@ const routes: Routes = [
   {
     path: 'cesta',
     component: CestaComponent
+  },
+  {
+    path: 'paspago',
+    component: PasarelaPagoComponent
   },
 
   //Vuelos
@@ -146,6 +164,42 @@ const routes: Routes = [
     component: EstacTrenFormComponent
   },
 
+  //Alojamientos
+  {
+    path: 'alojamientos',
+    component: AlojamientosBuscaComponent
+  },
+  {
+    path: 'alojamientos/list',
+    component: AlojamientosListComponent
+  },
+  {
+    path: 'alojamientos/add',
+    component: AlojamientosFormComponent
+  },
+  {
+    path: 'alojamientos/modify/:id',
+    component: AlojamientosFormComponent
+  },
+
+  //Vehiculos
+  {
+    path: 'vehiculos',
+    component: VehiculosBuscaComponent
+  },
+  {
+    path: 'oficinasrent',
+    component: OficinaListComponent
+  },
+  {
+    path: 'oficinasrent/add',
+    component: OficinaFormComponent
+  },
+  {
+    path: 'oficinasrent/modify/:id',
+    component: OficinaFormComponent
+  },
+
   // Ciudades
   {
     path: 'ciudades',
@@ -172,7 +226,52 @@ const routes: Routes = [
   {
     path: 'proveedores/modify/:id',
     component: ProveedorFormComponent
-  }
+  },
+
+  //Usuarios
+  {
+    path: 'usuarios',
+    component: UsuariosListComponent
+  },
+
+  //Blog
+  {
+    path: 'blog',
+    component: BlogComponent
+  },
+  {
+    path: 'blog/post/add',
+    component: BlogFormComponent
+  },
+  {
+    path: 'blog/post/modify/:id',
+    component: BlogFormComponent
+  },
+
+  //Estadísticas
+  {
+    path: 'estadisticas',
+    component: EstadisticasComponent
+  },
+
+
+  //error
+  {
+    path: 'nologin',
+    component: NologinComponent
+  },
+  {
+    path: 'noprivilege',
+    component: NoprivilegeComponent
+  },
+  {
+    path: 'error',
+    component: ErrorComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'error'
+  },
 ];
 
 @NgModule({

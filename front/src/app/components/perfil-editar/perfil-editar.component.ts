@@ -25,6 +25,8 @@ export class PerfilEditarComponent {
   }
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
     if (this.authService.getUser != null)
       this.usuario = this.authService.getUser();
   }

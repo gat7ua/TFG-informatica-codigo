@@ -1,4 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { TrenesService } from 'src/app/services/trenes.service';
 
 @Component({
@@ -12,9 +14,13 @@ export class EstacTrenListComponent {
 
   esttren: any = [];
 
-  constructor(private trenesService: TrenesService) {}
+  constructor(private trenesService: TrenesService, protected authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     this.getEstTren();
   }
 

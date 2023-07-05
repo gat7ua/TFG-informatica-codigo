@@ -3,6 +3,7 @@ import { Ciudad } from 'src/app/models/Ciudad';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import {CiudadService} from '../../services/ciudad.service'
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-ciudad-form',
@@ -21,9 +22,13 @@ export class CiudadFormComponent {
 
   editar: boolean = false;
 
-  constructor(private ciudadService: CiudadService, private router: Router, private activateRoute: ActivatedRoute) {}
+  constructor(private ciudadService: CiudadService, private router: Router, private activateRoute: ActivatedRoute, protected authService: AuthService) {}
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     const params = this.activateRoute.snapshot.params;
     console.log(params);
     if (params['id']) {

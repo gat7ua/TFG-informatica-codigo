@@ -1,0 +1,28 @@
+<div class="container p-4">
+    <h1>
+        Pasarela de pago
+    </h1>
+    <div class="card">
+        <div class="card-header">Pedido por confirmar</div>
+        <div class="card-body">
+            <table class="table table-hover px-0">
+                <tr *ngFor="let linea of lineas">
+                        <th scope="row">{{linea.linea}}</th>
+                        <th>{{linea.descr}}</th> 
+                        <th>{{traduceCategoria(linea.unidades, linea.tipo, linea.categoria)}}</th>
+                        <th>{{linea.importe}}€</th>
+                    </tr>
+            </table>
+            &nbsp; &nbsp; &nbsp; &nbsp; Total: {{totalPedido()}}€
+            <br>
+            <br>
+            &nbsp; &nbsp; &nbsp; &nbsp; ¿Desea confirmar el pedido?
+            <p style="text-align: right;">
+                &nbsp; &nbsp;
+                <button class="btn btn-success" (click)="confirmarPedido()">Confirmar pedido</button>
+                <a class="btn btn-danger" routerLink="/cesta"><i class="fa fa-arrow-left"
+                    aria-hidden="true"></i></a>
+            </p>
+        </div>
+    </div>
+</div>

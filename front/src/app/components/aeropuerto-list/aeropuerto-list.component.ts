@@ -1,4 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { VuelosService } from 'src/app/services/vuelos.service';
 
 @Component({
@@ -12,9 +14,13 @@ export class AeropuertoListComponent {
 
   aeropuertos: any = [];
 
-  constructor(private vuelosService: VuelosService) {}
+  constructor(private vuelosService: VuelosService, protected authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     this.getAeropuertos();
   }
 

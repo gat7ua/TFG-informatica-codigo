@@ -1,3 +1,125 @@
 <div class="container p-4">
-    
+    <div class="col-md-10 offset-md-1">
+        <div class="card" [hidden]="pedidos.length > 0">
+            <div class="card-header">
+                Tus pedidos
+            </div>
+            <div class="card-body">
+                No tienes pedidos todavía.
+            </div>
+        </div>
+        
+        <div class="card mt-4" [hidden]="pedidosP.length == 0">
+            <div class="card-header">
+                Pedido pendiente
+            </div>
+            <div class="card-body">
+                <div *ngFor="let pedido of pedidosP" class="card mt-4">
+                    <div class="card-header">Pedido</div>
+                    <div class="card-body">
+                        <table class="table table-hover px-0">
+                            <tr *ngFor="let linea of lineasPedido(pedido.id_pedi)">
+                                    <th scope="row">{{linea.linea}}</th>
+                                    <th>{{linea.descr}}</th> 
+                                    <th>{{traduceCategoria(linea.unidades, linea.tipo, linea.categoria)}}</th>
+                                    <th>{{linea.importe}}€</th>
+                                    <th><button class="btn btn-danger" (click)="eliminaLinea(pedido.id_pedi, linea.linea)">Eliminar</button></th>
+                                </tr>
+                        </table>
+                        &nbsp; &nbsp; &nbsp; &nbsp; Total: {{totalPedido(pedido.id_pedi)}}€
+                        <p style="text-align: right;">
+                            &nbsp; &nbsp;
+                            <button class="btn btn-success" (click)="confirmarPedido()">Confirmar pedido</button>
+                            <button class="btn btn-danger" (click)="eliminaLineas(pedido.id_pedi)">Eliminar pedido</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4" [hidden]="pedidosC.length == 0">
+            <div class="card-header">
+                Pedidos completados
+            </div>
+            <div class="card-body">
+                <div *ngFor="let pedido of pedidosC" class="card mt-3">
+                    <div class="card-header">Fecha confirmación: {{imprimirFecha(pedido.fechaMovimiento)}}</div>
+                    <div class="card-body">
+                        <table class="table table-hover px-0">
+                            <tr *ngFor="let linea of lineasPedido(pedido.id_pedi)">
+                                <th scope="row">{{linea.linea}}</th>
+                                <th>{{linea.descr}}</th> 
+                                <th>{{traduceCategoria(linea.unidades, linea.tipo, linea.categoria)}}</th>
+                                <th>{{linea.importe}}€</th>
+                            </tr>
+                        </table>
+                        &nbsp; &nbsp; &nbsp; &nbsp; Total: {{totalPedido(pedido.id_pedi)}}€
+                        <div style="text-align: right;">
+                            &nbsp; &nbsp;
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancelar pedido</button>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var btnCancelar = document.getElementById('btn-cancelar');
+                                    
+                                    if (btnCancelar)
+                                        btnCancelar.addEventListener('click', function () {
+                                        var modal = document.getElementById('exampleModal');
+                                        if (modal) {
+                                            console.log("Por lo menos AQUI SISISISI")
+                                            var modalInstance = Modal.getInstance(modal);
+                                            if (modalInstance) {
+                                            console.log("LLEGUE AQUI SISISISI")
+                                            modalInstance.hide();
+                                            }
+                                        }
+                                        });
+                                });
+                            </script>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cancelar pedido?</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Quieres realmente cancelar el pedido? Se cancelará el pedido, se reembolsará el importe y se perderá la reserva.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary" id="btn-cancelar" (click)="cancelaPedido(pedido.id_pedi)" data-bs-dismiss="modal">Sí, cancelar</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+
+        <div class="card mt-4" [hidden]="pedidosX.length == 0">
+            <div class="card-header">
+                Pedidos cancelados
+            </div>
+            <div class="card-body">
+                <div *ngFor="let pedido of pedidosX" class="card mt-3">
+                    <div class="card-header">Fecha cancelación: {{imprimirFecha(pedido.fechaMovimiento)}}</div>
+                    <div class="card-body">
+                        <table class="table table-hover px-0">
+                            <tr *ngFor="let linea of lineasPedido(pedido.id_pedi)">
+                                <th scope="row">{{linea.linea}}</th>
+                                <th>{{linea.descr}}</th> 
+                                <th>{{traduceCategoria(linea.unidades, linea.tipo, linea.categoria)}}</th>
+                                <th>{{linea.importe}}€</th>
+                            </tr>
+                        </table>
+                        &nbsp; &nbsp; &nbsp; &nbsp; Total: {{totalPedido(pedido.id_pedi)}}€
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
 </div>
+

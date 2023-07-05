@@ -1,0 +1,34 @@
+<div class="container p-4">
+    <div class="container row">
+    <div class="col-md-4 offset-md-2">
+        <div class="card">
+        <div class="card-header">
+            {{editar == true ? 'Editar Publicación' : 'Añadir Publicación'}}
+        </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group mb-3">
+                        <input type="text" name="nombre" [(ngModel)]="publicacion.titulo" placeholder="Título" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text"  name="texto" class="form-control" [(ngModel)]="publicacion.texto" placeholder="Texto">
+                    </div>
+                    <div class="d-grid gap-2">    
+                        <button class="btn btn-success" type="button" (click)="editar == true ? editarCiudad() : guardarCiudad()">
+                            Enviar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a class="btn btn-outline-danger mt-3" routerLink="/blog"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-body text-center">
+            <h3>{{publicacion.titulo == '' ? 'Titulo' : publicacion.titulo}} </h3>
+            <br>
+            {{publicacion.texto == '' ? 'Texto' : publicacion.texto}}
+        </div>
+    </div>
+    </div>
+    </div>

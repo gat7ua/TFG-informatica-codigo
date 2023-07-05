@@ -19,9 +19,15 @@
               <li class="nav-item">
                 <a class="nav-link" routerLink="/alojamientos" routerLinkActive="active">Alojamientos</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/vehiculos" routerLinkActive="active">Vehiculos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
+              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                  [hidden]="!authService.loggedIn() || authService.getRolUsuario() !== 'admin'">
+                  [hidden]="!authService.loggedIn() || !(authService.getRolUsuario() === 'admin' || authService.getRolUsuario() === 'agente')">
                   Gestionar
                 </a>
                 <ul class="dropdown-menu">
@@ -30,9 +36,14 @@
                   <li><a class="dropdown-item" routerLink="/aeropuertos">Aeropuertos</a></li>
                   <li><a class="dropdown-item" routerLink="/estautobuses">Estaciones autobus</a></li>
                   <li><a class="dropdown-item" routerLink="/esttrenes">Estaciones de tren</a></li>
+                  <li><a class="dropdown-item" routerLink="/oficinasrent">Oficinas rent</a></li>
                   <li><a class="dropdown-item" routerLink="/vuelos/list">Vuelos</a></li>
                   <li><a class="dropdown-item" routerLink="/autobuses/list">Autobuses</a></li>
+                  <li><a class="dropdown-item" routerLink="/alojamientos/list">Alojamientos</a></li>
+                  <li><a class="dropdown-item" routerLink="/vehiculos/list">Vehículos</a></li>
                   <li><a class="dropdown-item" routerLink="/trenes/list">Trenes</a></li>
+                  <li><a class="dropdown-item" [hidden]="authService.getRolUsuario() !== 'admin'" routerLink="/usuarios">Usuarios</a></li>  
+                  <li><a class="dropdown-item" routerLink="/estadisticas">Estadísticas</a></li>             
                 </ul>
               </li>
             </ul>
@@ -51,7 +62,13 @@
                   <a class="nav-link" style="cursor:pointer" (click)="authService.logOut()" [hidden]="!authService.loggedIn()">Cerrar sesión</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLink="/cesta" [hidden]="!authService.loggedIn()"><i class="fa fa-cart-shopping fa-flip-horizontal fa-xl"></i></a>
+                  <a class="nav-link" routerLink="/cesta" [hidden]="!authService.loggedIn()">
+                    <i class="fa fa-cart-shopping fa-flip-horizontal fa-xl"></i>
+                    <span [hidden]="numProds == 0" class="position-absolute top-10 start-40 translate-middle badge rounded-pill bg-danger">
+                      {{numProds}}
+                      <span class="visually-hidden">productos pendientes</span>
+                    </span>
+                  </a>
                 </li>
               </ul>
             </span>

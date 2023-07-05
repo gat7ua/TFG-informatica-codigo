@@ -1,0 +1,29 @@
+<div class="container p-4">
+    <div class="container text-center">
+        <h1>Oficinas Rent</h1>
+        
+        <div class="container row">
+        <div class="col-md-4 mt-3" *ngFor="let ofi of ofis">
+            <div class="card text-center">
+                <div class="card-header d-flex justify-content-center">
+                    {{ofi.nombre}}
+                     <br>
+                    {{ofi.nombre_ciud}}, {{ofi.pais}}
+                </div>
+                <div class="card-body">
+                    <!--Vuelos llegada: {{cuenta(aeropuerto.id_aero, "ida")}}
+                    <br>
+                    Vuelos salida: {{cuenta(aeropuerto.id_aero, "vuelta")}}
+                    <br>
+                    <div class="container mt-3">-->
+                        <a [routerLink]="['/oficinasrent/modify', ofi.id_ofre]" class="btn btn-info btn-block">Modificar</a>
+                        <button class="btn btn-danger" (click)="deleteEstAutobus(ofi.id_ofre)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        </div>
+        
+        <a routerLink="/oficinasrent/add" class="btn btn-success btn-block mt-4">Añadir estación</a>
+        </div>
+    </div>

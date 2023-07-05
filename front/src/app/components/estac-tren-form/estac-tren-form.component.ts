@@ -1,6 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstTren } from 'src/app/models/EstTren';
+import { AuthService } from 'src/app/services/auth.service';
 import { CiudadService } from 'src/app/services/ciudad.service';
 import { TrenesService } from 'src/app/services/trenes.service';
 
@@ -25,9 +26,14 @@ export class EstacTrenFormComponent {
 
   editar: boolean = false;
 
-  constructor(private trenesService: TrenesService, private router: Router, private activateRoute: ActivatedRoute, private ciudaService: CiudadService) {}
+  constructor(private trenesService: TrenesService, private router: Router, private activateRoute: ActivatedRoute, 
+              private ciudaService: CiudadService, protected authService: AuthService) {}
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     const params = this.activateRoute.snapshot.params;
     console.log(params);
     this.ciudaService.getCiudades().subscribe(

@@ -13,6 +13,9 @@ import etr from './routes/estTrenController';
 import prr from './routes/proveedorRoutes';
 import trs from './routes/trenesRoutes';
 import pdr from './routes/pedidosRoutes';
+import bbr from './routes/blogRoutes';
+import ofr from './routes/oficinarentController';
+import alr from './routes/alojamientoRoutes';
 
 class Server {
 
@@ -44,6 +47,9 @@ class Server {
         this.app.use('/api/proveedor', prr);
         this.app.use('/api/trenes', trs);
         this.app.use('/api/pedido', pdr);
+        this.app.use('/api/blog', bbr);
+        this.app.use('/api/oficinarent', ofr);
+        this.app.use('/api/alojamientos', alr);
     }
 
     start(): void {

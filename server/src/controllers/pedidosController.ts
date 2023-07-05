@@ -10,9 +10,25 @@ class PedidosController {
     }
 
     public async listUsuario (req: Request, res: Response) {
+        const retur = await db.query("select * from pedido where id_usua = " + req.params.id);
+        if (retur.length > 0) {
+            return res.json(retur);
+        } 
+        res.status(404).json("No existen pedidos para el usuario");
+    }
+
+    public async numProdsCesta (req: Request, res: Response) {
+        const retur = await db.query("select count(*) num from pedidoUsuarios where estadoPedido = 'P' and id_usua = " + req.params.id);
+        if (retur.length > 0) {
+            return res.json(retur[0].num);
+        } 
+        res.status(404).json("No existen pedidos pendientes para el usuario");
+    }
+
+    public async listLineas (req: Request, res: Response) {
         const retur = await db.query("select * from pedidoUsuarios where id_usua = " + req.params.id);
         if (retur.length > 0) {
-            return res.json(retur[0]);
+            return res.json(retur);
         } 
         res.status(404).json("No existen pedidos para el usuario");
     }
@@ -49,7 +65,27 @@ class PedidosController {
         else
             categ = null;
 
-        await db.query("call insertaLineaPedido("+ req.body.id_usua + ", " + req.body.id_prod + ", " + req.body.importe + ", " + req.body.unidades + ", " + categ + ");");
+        var fini;
+        if (!!req.body.chIn)
+            fini = req.body.chIn;
+        else
+            fini = null;
+        var fsal;
+        if (!!req.body.chOut)
+            fsal = req.body.chOut;
+        else
+            fsal = null;
+                
+        var quer = "call insertaLineaPedido("+ req.body.id_usua + ", " + req.body.id_prod + ", " + req.body.importe + ", " + req.body.unidades + ", " + categ + ", ";
+        if (fini) {
+            quer = quer.concat(" '" + fini + "', '" + fsal + "');");
+        }
+        else {
+            quer = quer.concat(" null, null);");
+        }
+
+        console.log(quer);
+        await db.query(quer);
         res.json({text: 'Linea creada'});
     }
     

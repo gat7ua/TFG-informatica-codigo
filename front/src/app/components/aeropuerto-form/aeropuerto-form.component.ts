@@ -1,6 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Aeropuerto } from 'src/app/models/Aeropuerto';
+import { AuthService } from 'src/app/services/auth.service';
 import { CiudadService } from 'src/app/services/ciudad.service';
 import { VuelosService } from 'src/app/services/vuelos.service';
 
@@ -26,9 +27,14 @@ export class AeropuertoFormComponent {
 
   editar: boolean = false;
 
-  constructor(private vuelosService: VuelosService, private router: Router, private activateRoute: ActivatedRoute, private ciudaService: CiudadService) {}
+  constructor(private vuelosService: VuelosService, private router: Router, private activateRoute: ActivatedRoute, 
+              private ciudaService: CiudadService, private authService: AuthService) {}
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     const params = this.activateRoute.snapshot.params;
     console.log(params);
     this.ciudaService.getCiudades().subscribe(

@@ -17,6 +17,9 @@ const estTrenController_1 = __importDefault(require("./routes/estTrenController"
 const proveedorRoutes_1 = __importDefault(require("./routes/proveedorRoutes"));
 const trenesRoutes_1 = __importDefault(require("./routes/trenesRoutes"));
 const pedidosRoutes_1 = __importDefault(require("./routes/pedidosRoutes"));
+const blogRoutes_1 = __importDefault(require("./routes/blogRoutes"));
+const oficinarentController_1 = __importDefault(require("./routes/oficinarentController"));
+const alojamientoRoutes_1 = __importDefault(require("./routes/alojamientoRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -42,6 +45,9 @@ class Server {
         this.app.use('/api/proveedor', proveedorRoutes_1.default);
         this.app.use('/api/trenes', trenesRoutes_1.default);
         this.app.use('/api/pedido', pedidosRoutes_1.default);
+        this.app.use('/api/blog', blogRoutes_1.default);
+        this.app.use('/api/oficinarent', oficinarentController_1.default);
+        this.app.use('/api/alojamientos', alojamientoRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

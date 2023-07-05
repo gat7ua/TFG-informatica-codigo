@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Autobus } from 'src/app/models/Autobus';
 import { EstAutobus } from 'src/app/models/EstAutobus';
 import { Proveedor } from 'src/app/models/Proveedor';
+import { AuthService } from 'src/app/services/auth.service';
 import { AutobusesService } from 'src/app/services/autobuses.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 
@@ -49,9 +50,15 @@ export class AutobusesFormComponent {
 
   editar: boolean = false;
 
-  constructor(protected autobusService: AutobusesService, private router: Router, private activateRoute: ActivatedRoute, private proveedorService: ProveedorService) {}
+  constructor(protected autobusService: AutobusesService, private router: Router, private activateRoute: ActivatedRoute, 
+              private proveedorService: ProveedorService, protected authService: AuthService) {}
 
   ngOnInit() {
+    
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     const params = this.activateRoute.snapshot.params;
     console.log(params);
     this.autobusService.getEstsAutobus().subscribe(

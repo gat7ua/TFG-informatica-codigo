@@ -1,4 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { TrenesService } from 'src/app/services/trenes.service';
 
 @Component({
@@ -18,21 +20,18 @@ export class TrenesListComponent {
   indActual: number = 0;
   maxIndice: number = 0;
 
-  constructor(protected trenesService: TrenesService) {}
+  constructor(protected trenesService: TrenesService, protected authService: AuthService, private router: Router) {}
 
   async ngOnInit() {
-    const carga = document.getElementById("carga");
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     const todo = document.getElementById("todo");
-    if (carga !== null) {
-      carga.hidden = false;
-    }
     if (todo !== null) {
       todo.hidden = true;
     }
     await this.getTrenes();
-    if (carga !== null) {
-      carga.hidden = true;
-    }
     if (todo !== null) {
       todo.hidden = false;
     }

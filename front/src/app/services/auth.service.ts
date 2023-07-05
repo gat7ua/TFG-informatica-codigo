@@ -92,6 +92,10 @@ export class AuthService {
     return "no hay usuario";
   }
 
+  getUsu(id: string) {
+    return this.http.get<any>(this.URL + '/usuario/id/' + id);
+  }
+
   async loginToken() {
     const user = this.getUserLS();
     if (user === "{}") {
@@ -193,6 +197,13 @@ export class AuthService {
     if (user != "{}")
       return user.nombre;
     return "";   
+  }
+
+  getUserID() {
+    var user = this.getUser();
+    if (user != "{}")
+      return user.id_usua;
+    return 0;  
   }
 
   getUserLS(){

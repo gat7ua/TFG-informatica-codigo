@@ -9,9 +9,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AppComponent {
   title = 'front';
 
-  constructor (private authService: AuthService) {}
+  constructor (private authService: AuthService) {
+    this.authService.loginToken()
+  }
 
-  ngOnInit() {
-    this.authService.loginToken();
+  async ngOnInit() {
+    
   }
 }

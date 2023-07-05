@@ -17,13 +17,22 @@ const database_1 = __importDefault(require("../database"));
 class UsuarioController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const retur = yield database_1.default.query("select * from usuario");
+            const retur = yield database_1.default.query("select * from usuarioComple");
             res.json(retur);
         });
     }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const retur = yield database_1.default.query("select * from usuario where email = '" + req.params.email + "'");
+            if (retur.length > 0) {
+                return res.json(retur[0]);
+            }
+            res.status(404).json("No existe el usuario");
+        });
+    }
+    getId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const retur = yield database_1.default.query("select * from usuario where id_usua = " + req.params.id);
             if (retur.length > 0) {
                 return res.json(retur[0]);
             }
@@ -149,6 +158,64 @@ class UsuarioController {
             }
             if (consul[0].email == req.body.email &&
                 consul[0].password == req.body.password) {
+                res.json({ text: "correcto" });
+                return;
+            }
+            res.json({ text: "invalido" });
+        });
+    }
+    setAgente(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const retur = yield database_1.default.query("select * from usuario where id_usua = " + req.params.id);
+            if (retur.length > 0) {
+                const retur2 = yield database_1.default.query("select * from agente where id_usua = " + req.params.id);
+                if (retur2.length > 0) {
+                    res.json({ text: "ya es agente" });
+                    return;
+                }
+                const retur3 = yield database_1.default.query("select * from administrador where id_usua = " + req.params.id);
+                if (retur3.length > 0) {
+                    yield database_1.default.query("delete from administrador where id_usua = " + req.params.id);
+                }
+                yield database_1.default.query("insert into agente values (" + req.params.id + ")");
+                res.json({ text: "correcto" });
+                return;
+            }
+            res.json({ text: "invalido" });
+        });
+    }
+    setAdmin(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const retur = yield database_1.default.query("select * from usuario where id_usua = " + req.params.id);
+            if (retur.length > 0) {
+                const retur3 = yield database_1.default.query("select * from administrador where id_usua = " + req.params.id);
+                if (retur3.length > 0) {
+                    res.json({ text: "ya es administrador" });
+                    return;
+                }
+                const retur2 = yield database_1.default.query("select * from agente where id_usua = " + req.params.id);
+                if (retur2.length > 0) {
+                    yield database_1.default.query("delete from agente where id_usua = " + req.params.id);
+                }
+                yield database_1.default.query("insert into administrador values (" + req.params.id + ")");
+                res.json({ text: "correcto" });
+                return;
+            }
+            res.json({ text: "invalido" });
+        });
+    }
+    setCliente(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const retur = yield database_1.default.query("select * from usuario where id_usua = " + req.params.id);
+            if (retur.length > 0) {
+                const retur3 = yield database_1.default.query("select * from administrador where id_usua = " + req.params.id);
+                if (retur3.length > 0) {
+                    yield database_1.default.query("delete from administrador where id_usua = " + req.params.id);
+                }
+                const retur2 = yield database_1.default.query("select * from agente where id_usua = " + req.params.id);
+                if (retur2.length > 0) {
+                    yield database_1.default.query("delete from agente where id_usua = " + req.params.id);
+                }
                 res.json({ text: "correcto" });
                 return;
             }

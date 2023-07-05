@@ -4,13 +4,21 @@ import db from '../database';
 
 class UsuarioController {
     public async list (req: Request, res: Response) {
-        const retur = await db.query("select * from usuario");
+        const retur = await db.query("select * from usuarioComple");
         res.json(retur);
 
     }
 
     public async get (req: Request, res: Response) {
         const retur = await db.query("select * from usuario where email = '" + req.params.email + "'");
+        if (retur.length > 0) {
+            return res.json(retur[0]);
+        } 
+        res.status(404).json("No existe el usuario");
+    }
+
+    public async getId(req: Request, res: Response) {
+        const retur = await db.query("select * from usuario where id_usua = " + req.params.id);
         if (retur.length > 0) {
             return res.json(retur[0]);
         } 
@@ -127,6 +135,61 @@ class UsuarioController {
         if (consul[0].email == req.body.email &&
             consul[0].password == req.body.password
             ) {
+            res.json({text: "correcto"});
+            return;
+        }
+        res.json({text: "invalido"});
+    }
+
+    public async setAgente(req: Request, res: Response) {
+        const retur = await db.query("select * from usuario where id_usua = " + req.params.id);
+        if (retur.length > 0) {
+            const retur2 = await db.query("select * from agente where id_usua = " + req.params.id);
+            if (retur2.length > 0) {
+                res.json({text: "ya es agente"});
+                return;
+            }
+            const retur3 = await db.query("select * from administrador where id_usua = " + req.params.id);
+            if (retur3.length > 0) {
+                await db.query("delete from administrador where id_usua = " + req.params.id);
+            }
+            await db.query("insert into agente values (" + req.params.id + ")");
+            res.json({text: "correcto"});
+            return;
+        }
+        res.json({text: "invalido"});
+    }
+
+    public async setAdmin(req: Request, res: Response) {
+        const retur = await db.query("select * from usuario where id_usua = " + req.params.id);
+        if (retur.length > 0) {
+            const retur3 = await db.query("select * from administrador where id_usua = " + req.params.id);
+            if (retur3.length > 0) {
+                res.json({text: "ya es administrador"});
+                return;
+            }
+            const retur2 = await db.query("select * from agente where id_usua = " + req.params.id);
+            if (retur2.length > 0) {
+                await db.query("delete from agente where id_usua = " + req.params.id);
+            }
+            await db.query("insert into administrador values (" + req.params.id + ")");
+            res.json({text: "correcto"});
+            return;
+        }
+        res.json({text: "invalido"});
+    }
+
+    public async setCliente(req: Request, res: Response) {
+        const retur = await db.query("select * from usuario where id_usua = " + req.params.id);
+        if (retur.length > 0) {
+            const retur3 = await db.query("select * from administrador where id_usua = " + req.params.id);
+            if (retur3.length > 0) {
+                await db.query("delete from administrador where id_usua = " + req.params.id);
+            }
+            const retur2 = await db.query("select * from agente where id_usua = " + req.params.id);
+            if (retur2.length > 0) {
+                await db.query("delete from agente where id_usua = " + req.params.id);
+            }
             res.json({text: "correcto"});
             return;
         }

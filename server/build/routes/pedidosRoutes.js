@@ -10,6 +10,8 @@ class pedidosRoutes {
     config() {
         this.router.get('/', pedidosController_1.pedidosController.list);
         this.router.get('/cesta/:id', pedidosController_1.pedidosController.listUsuario);
+        this.router.get('/cesta/prods/:id', pedidosController_1.pedidosController.numProdsCesta);
+        this.router.get('/cesta/lineas/:id', pedidosController_1.pedidosController.listLineas);
         this.router.get('/:id', pedidosController_1.pedidosController.get);
         this.router.get('/confirma/:id', pedidosController_1.pedidosController.confirmaPedido);
         this.router.get('/cancela/:id', pedidosController_1.pedidosController.cancelaPedido);

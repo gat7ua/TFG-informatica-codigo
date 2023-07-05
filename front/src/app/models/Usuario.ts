@@ -8,5 +8,6 @@ export interface Usuario {
     contras?: string,
     password?: string,
     direccion?: string,
-    token?: string
+    token?: string,
+    rol?: string
 }

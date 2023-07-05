@@ -12,6 +12,8 @@ class pedidosRoutes {
     config(): void {
         this.router.get('/', pedidosController.list);            
         this.router.get('/cesta/:id', pedidosController.listUsuario);  
+        this.router.get('/cesta/prods/:id', pedidosController.numProdsCesta);  
+        this.router.get('/cesta/lineas/:id', pedidosController.listLineas);  
         this.router.get('/:id', pedidosController.get);
         this.router.get('/confirma/:id', pedidosController.confirmaPedido); 
         this.router.get('/cancela/:id', pedidosController.cancelaPedido); 

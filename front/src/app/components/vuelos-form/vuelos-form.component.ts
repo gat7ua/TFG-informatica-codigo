@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Aeropuerto } from 'src/app/models/Aeropuerto';
 import { Proveedor } from 'src/app/models/Proveedor';
 import { Vuelo } from 'src/app/models/Vuelo';
+import { AuthService } from 'src/app/services/auth.service';
 import { CiudadService } from 'src/app/services/ciudad.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { VuelosService } from 'src/app/services/vuelos.service';
@@ -52,9 +53,14 @@ export class VuelosFormComponent {
 
   editar: boolean = false;
 
-  constructor(protected vuelosService: VuelosService, private router: Router, private activateRoute: ActivatedRoute, private proveedorService: ProveedorService) {}
+  constructor(protected vuelosService: VuelosService, private router: Router, private activateRoute: ActivatedRoute, 
+              private proveedorService: ProveedorService, protected authService: AuthService) {}
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     const params = this.activateRoute.snapshot.params;
     console.log(params);
     this.vuelosService.getAeropuertos().subscribe(

@@ -1,0 +1,129 @@
+<div class="container p-4">
+    <div class="container">
+        <div class="col-md-10 offset-md-1">
+            <div class="card">
+                <div class="card-header">
+                    Buscador de alojamientos
+                </div>
+                <div class="card-body row">
+                    <div class="mb-3 col-md-4">
+                        <label for="exampleFormControlInput1" class="form-label">Ciudad</label>
+                        <input class="form-control" list="datalistOptions" id="desdeList"
+                            placeholder="Escriba para buscar..." [(ngModel)]="form.id_ciud">
+                        <datalist id="datalistOptions">
+                            <option *ngFor="let ciud of this.ciudades" [value]="ciud.id_ciud">
+                                {{ciud.nombre}}, {{ciud.pais}}
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label for="exampleFormControlTextarea1" class="form-label">Check-In</label>
+                        <input type="date" class="form-control" class="form-control" id="ida" placeholder=""
+                            [(ngModel)]="form.chIn">
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label for="exampleFormControlTextarea1" class="form-label">Check-Out</label>
+                        <input type="date" class="form-control" class="form-control" id="ida" placeholder=""
+                            [(ngModel)]="form.chOut">
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label for="exampleFormControlTextarea1" class="form-label">Tipo de alojamiento</label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="form.cod_aloj">
+                            <option selected value="HO">Hotel</option>
+                            <option value="HS">Hostal</option>
+                            <option value="AL">Albergue</option>
+                            <option value="AP">Apartamento</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label for="exampleFormControlTextarea1" class="form-label">Número de personas</label>
+                        <input type="number" min="0" max="10" class="form-control" class="form-control" id="viajeros"
+                            placeholder="" [(ngModel)]="form.num_perso">
+                    </div>
+                    <div class="mb-3 col-md-2">
+                        <label for="exampleFormControlTextarea1" class="form-label">Número de alojamientos</label>
+                        <input type="number" min="0" max="10" class="form-control" class="form-control" id="uds"
+                            placeholder="" [(ngModel)]="form.uds">
+                    </div>
+                    <div class="mb-3 col-md-2">
+                        <button class="btn btn-success mt-3" type="submit" name="email" (click)="buscar()" [disabled]="form.id_ciud == '' || form.cod_aloj == '' || form.uds == 0 || form.num_perso == 0 || form.chIn == '' || form.chOut == ''">
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-4 col-md-10 offset-md-1">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="collapsed accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Filtros
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <h4>Filtros</h4>
+                        <div class="container row">
+                            <div class="container mb-3 col-md-3">
+                                <label for="">Precio máximo</label>
+                                <input type="text" class="form-control" class="form-control" id="pmax" placeholder=""
+                                    [(ngModel)]="filtro.pmax">
+                            </div>
+                        </div>
+                        <h4>Ordenar</h4>
+                        <div class="container">
+                            <select class="form-select" aria-label="ordenFiltro" [(ngModel)]="filtro.orden">
+                                <option selected>Elige un metodo de ordenación</option>
+                                <option value="1">Precio ascendente</option>
+                                <option value="2">Precio descendente</option>
+                            </select>                     
+                        </div>
+                        <button class="btn btn-success mt-3" type="submit" name="email" (click)="buscar()" [disabled]="form.id_ciud == '' || form.cod_aloj == '' || form.uds == 0 || form.num_perso == 0">
+                            Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-2" id="resAloja" hidden>
+        <div class="col-md-8 offset-md-2">
+            <h3>Resultados</h3>
+            <div class="card">
+                <div class="card-header">
+                    {{alojamien.length}} alojamientos
+                </div>
+                <div class="card-body">
+                    <div *ngFor="let aloja of pagin" class="container row ml-2 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>{{aloja.nombre}}</h4> <br>
+                                {{aloja.descripcion}} <br>
+                                Número de camas: {{aloja.num_camas}}, número de aseos: {{aloja.num_aseos}}, clase: {{alojamientosService.decodeCodAloj(aloja.cod_aloj)}}
+                                <br>
+                                <button (click)="anayadeCesta(aloja)" class="btn btn-success mt-3">Añadir a cesta</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination">
+                <li [hidden]="indActual == 0" class="page-item"><a class="page-link"
+                        (click)="paginar(indActual - numPagina)"><i class="fa fa-arrow-left"
+                            aria-hidden="true"></i></a></li>
+                <li class="page-item" *ngFor="let paginaI of indices"><a class="page-link"
+                        (click)="paginar(paginaI.indice)"> {{paginaI.pagina}} </a></li>
+                <li [hidden]="indActual >= maxInd" class="page-item"><a class="page-link"
+                        (click)="paginar(indActual + numPagina)"><i class="fa fa-arrow-right"
+                            aria-hidden="true"></i></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

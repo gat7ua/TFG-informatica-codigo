@@ -10,6 +10,10 @@ class usuarioRoutes {
     config() {
         this.router.get('/', usuarioController_1.usuarioController.list);
         this.router.get('/:email', usuarioController_1.usuarioController.get);
+        this.router.get('/id/:id', usuarioController_1.usuarioController.getId);
+        this.router.put('/sad/:id', usuarioController_1.usuarioController.setAdmin);
+        this.router.put('/sag/:id', usuarioController_1.usuarioController.setAgente);
+        this.router.put('/sac/:id', usuarioController_1.usuarioController.setCliente);
         this.router.get('/rol/:email', usuarioController_1.usuarioController.rol);
         this.router.post('/registrar', usuarioController_1.usuarioController.create);
         this.router.post('/token', usuarioController_1.usuarioController.gToken);

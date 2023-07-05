@@ -12,7 +12,9 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor (private authService: AuthService, private router: Router) {}
+  constructor (private authService: AuthService, private router: Router) {
+    this.authService.loginToken()
+  }
 
   usuario: Usuario = {
     email: '',

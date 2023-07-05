@@ -1,4 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { AutobusesService } from 'src/app/services/autobuses.service';
 
 @Component({
@@ -18,9 +20,13 @@ export class AutobusesListComponent {
   indActual: number = 0;
   maxIndice: number = 0;
 
-  constructor(protected autobusesService: AutobusesService) {}
+  constructor(protected autobusesService: AutobusesService, protected authService: AuthService, private router: Router) {}
 
   async ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
+    if (!(this.authService.getRolUsuario()==="admin" || this.authService.getRolUsuario()==="agente"))
+      this.router.navigate(['/noprivilege']);
     const carga = document.getElementById("carga");
     const todo = document.getElementById("todo");
     if (carga !== null) {

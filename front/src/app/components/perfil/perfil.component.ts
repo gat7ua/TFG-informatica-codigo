@@ -26,6 +26,8 @@ export class PerfilComponent {
   }
 
   ngOnInit() {
+    if (!this.authService.loggedIn())
+      this.router.navigate(['/nologin']);
     if (this.authService.getUser() == null)
       this.router.navigate(['/'])
     this.usuario = this.authService.getUser();
